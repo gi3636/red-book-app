@@ -1,0 +1,6 @@
+bundle.js
+bundle.d.ts
+protobuf/*
+
+package.json
+*.md
