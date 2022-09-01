@@ -18,7 +18,7 @@ module.exports = {
         'comma-dangle': ['error', 'never'],
         'import/no-unresolved': 'off',
         'import/no-extraneous-dependencies': 'off',
-        'no-console': 'warn',
+        'no-console': 'off',
         'no-debugger': 'error',
         'no-plusplus': 'off',
         'camelcase': 'off',
@@ -72,16 +72,16 @@ module.exports = {
         'no-nested-ternary': 'off',
         'no-await-in-loop': 'off',
         // 对象/数组 解构
-        'prefer-destructuring': [
-          'error',
-          {
-            array: true,
-            object: true
-          },
-          {
-            enforceForRenamedProperties: false
-          }
-        ],
+        //'prefer-destructuring': [
+        //  'error',
+        //  {
+        //    array: true,
+        //    object: true
+        //  },
+        //  {
+        //    enforceForRenamedProperties: false
+        //  }
+        //],
         'prettier/prettier': [
           'error',
           {
@@ -92,8 +92,8 @@ module.exports = {
         'react-hooks/exhaustive-deps': 'warn',
         'react-native/no-unused-styles': 2,
         'react-native/split-platform-components': 2,
-        'react-native/no-inline-styles': 'warn',
-        'react-native/no-color-literals': 2,
+        'react-native/no-inline-styles': 'off',
+        'react-native/no-color-literals': 'off',
         'react-native/no-raw-text': 0,
         'react-native/no-single-element-style-arrays': 2,
         // suppress errors for missing 'import React' in files

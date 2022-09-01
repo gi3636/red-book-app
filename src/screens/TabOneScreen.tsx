@@ -4,9 +4,8 @@ import { StyleSheet } from 'react-native'
 
 import EditScreenInfo from '../components/EditScreenInfo'
 import { Text, View } from '../components/Themed'
-import { RootTabScreenProps } from '../types'
 import { Button } from '@rneui/themed'
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+export default function TabOneScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>
