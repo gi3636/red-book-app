@@ -1,8 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Controller, useForm } from 'react-hook-form'
-import { Button, Icon, Input, Pressable } from 'native-base'
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
 
 interface FormProps {
   fields: Array<any>
@@ -11,21 +9,20 @@ interface FormProps {
 }
 
 function Form({ fields, onSubmit, form }: FormProps) {
-  const [show, setShow] = React.useState(false)
   const {
     control,
     formState: { errors }
   } = form
 
   const renderSubForm = () => {
-    return fields.map((item: any) => {
+    return fields.map((item: any, index) => {
       if (item.show && !item.show()) {
         return ''
       }
       return (
         <>
           <Controller key={item.name} control={control} name={item.name} {...item.props} />
-          {errors[item.name] && <Text style={styles.errorText}>{`请输入${item.label}`}</Text>}
+          {errors[item.name] && <Text key={Math.random()} style={styles.errorText}>{`请输入${item.label}`}</Text>}
         </>
       )
     })

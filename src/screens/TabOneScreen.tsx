@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native'
 import EditScreenInfo from '../components/EditScreenInfo'
 import { Text, View } from '../components/Themed'
 import { Button } from '@rneui/themed'
+import React from 'react'
 export default function TabOneScreen({ navigation }) {
   return (
     <View style={styles.container}>

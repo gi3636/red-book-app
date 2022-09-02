@@ -1,6 +1,6 @@
 /** @format */
 import { api } from './api'
 
-export function getStsToken() {
-  return api.get('/api/sts/token')
+export function login(param) {
+  return api.post('api/auth/login', param)
 }

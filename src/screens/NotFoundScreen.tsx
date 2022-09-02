@@ -3,7 +3,7 @@
 import { StyleSheet, TouchableOpacity } from 'react-native'
 
 import { Text, View } from '../components/Themed'
-
+import React from 'react'
 export default function NotFoundScreen({ navigation }) {
   return (
     <View style={styles.container}>
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     paddingVertical: 15
   },
-  //eslint-disable-next-line react-native/no-color-literals
+
   linkText: {
     fontSize: 14,
     color: '#2e78b7'

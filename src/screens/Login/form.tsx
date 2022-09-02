@@ -16,6 +16,10 @@ export const fields = (show, setShow, isLogin) => [
       },
       render: ({ field: { onChange, onBlur, value } }) => (
         <Input
+          _light={{
+            color: 'black',
+            backgroundColor: 'white'
+          }}
           InputLeftElement={<Icon as={<FontAwesome name="user" />} size={5} ml="3" color="muted.400" />}
           variant="filled"
           placeholder="请输入账号"
@@ -36,6 +40,10 @@ export const fields = (show, setShow, isLogin) => [
       render: ({ field: { onChange, onBlur, value } }) => (
         <View style={{ marginTop: 12 }}>
           <Input
+            _light={{
+              color: 'black',
+              backgroundColor: 'white'
+            }}
             InputLeftElement={<Icon as={<FontAwesome name="unlock-alt" />} size={5} ml="3" color="muted.400" />}
             variant="filled"
             placeholder="请输入密码"
@@ -71,6 +79,10 @@ export const fields = (show, setShow, isLogin) => [
       render: ({ field: { onChange, onBlur, value } }) => (
         <View style={{ marginTop: 12 }}>
           <Input
+            _light={{
+              color: 'black',
+              backgroundColor: 'white'
+            }}
             InputLeftElement={<Icon as={<FontAwesome name="unlock-alt" />} size={5} ml="3" color="muted.400" />}
             variant="filled"
             placeholder="请输入密码"
