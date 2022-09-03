@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Controller, useForm } from 'react-hook-form'
+import colors from '../styles/colors'
 
 interface FormProps {
   fields: Array<any>
@@ -34,7 +35,7 @@ function Form({ fields, onSubmit, form }: FormProps) {
 const styles = StyleSheet.create({
   errorText: {
     marginTop: 3,
-    color: 'red'
+    color: colors.danger
   }
 })
 
