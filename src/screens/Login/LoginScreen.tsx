@@ -21,8 +21,8 @@ export default function LoginScreen({ navigation }) {
   const toast = useToast()
   const form = useForm({
     defaultValues: {
-      username: '',
-      password: '',
+      username: 'franky',
+      password: '123123',
       confirmPassword: ''
     }
   })
@@ -34,11 +34,11 @@ export default function LoginScreen({ navigation }) {
       if (isLogin) {
         saveStorageToken(res.data.token)
         saveStorageUser(res.data)
-        toast.show({ title: '登入成功' })
+        toast.show({ title: '登入成功', placement: 'top' })
         navigation.replace('Root')
       } else {
         form.reset()
-        toast.show({ title: '注册成功' })
+        toast.show({ title: '注册成功', placement: 'top' })
         setIsLogin(true)
       }
     } else {

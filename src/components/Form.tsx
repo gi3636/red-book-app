@@ -22,14 +22,18 @@ function Form({ fields, onSubmit, form }: FormProps) {
       }
       return (
         <>
-          <Controller key={item.name} control={control} name={item.name} {...item.props} />
+          <Controller key={Math.random()} control={control} name={item.name} {...item.props} />
           {errors[item.name] && <Text key={Math.random()} style={styles.errorText}>{`请输入${item.label}`}</Text>}
         </>
       )
     })
   }
 
-  return <View style={{ width: '100%' }}>{renderSubForm()}</View>
+  return (
+    <View key={Math.random()} style={{ width: '100%' }}>
+      {renderSubForm()}
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({

@@ -1,6 +1,7 @@
 export default {
   primary: '#5E72E4',
-  secondary: '#11CDEF',
+  secondary: '#119aef',
+  third: '#5b98e6',
   placeholder: '#ADB5BD',
   main_font: '#525F7F',
   background: '#F4F5F7',
@@ -19,5 +20,6 @@ export default {
   medium: '#8c8c8c',
   mediumLight: '#d4d4d4',
   light: '#f5f5f5',
-  white: '#ffffff'
+  white: '#ffffff',
+  white200: '#948e8e'
 }
