@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import MasonryList from '@react-native-seoul/masonry-list'
-import PreviewCard from '../../components/PreviewCard'
 import { Dimensions, ImageBackground, StyleSheet } from 'react-native'
 import { Text, View } from 'native-base'
 import colors from '../../styles/colors'
 import { LinearGradient } from 'expo-linear-gradient'
 import { api } from '../../api/api'
 import throttle from 'lodash/throttle'
+import PreviewCard from '../../components/PreviewCard/PreviewCard'
+
 const screenHeight = Dimensions.get('window').height
 function RecommendScreen(props) {
   const [loading, setLoading] = useState(false)

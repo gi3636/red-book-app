@@ -9,6 +9,7 @@ api = axios.create({
   baseURL: api_url
   //headers: {  },
 })
+api.defaults.timeout = 5000
 api.interceptors.request.use(async function (config) {
   let token = await getStorageToken()
   if (token) {

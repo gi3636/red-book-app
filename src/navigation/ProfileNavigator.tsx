@@ -6,13 +6,14 @@ import EditIcon from '../assets/images/edit.svg'
 import { View } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import colors from '../styles/colors'
+import { Feather } from '@expo/vector-icons'
 
 const Stack = createNativeStackNavigator()
 const ProfileNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: true
+        headerShown: false
       }}>
       <Stack.Screen
         name="Profile"
@@ -21,13 +22,10 @@ const ProfileNavigator = () => {
           title: '',
           headerStyle: {
             backgroundColor: colors.primary
-            //elevation: 0, // shadow on Android
-            //shadowOpacity: 0, // shadow on iOS,
-            //shadowRadius: 0 // shadow blur on iOS
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
-            fontWeight: 'bold'
+            //fontWeight: 'bold'
           },
           headerRight: () => (
             <View
@@ -36,13 +34,14 @@ const ProfileNavigator = () => {
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
+              {/*<Feather name="edit" size={24} color="white" />*/}
               <EditIcon
                 onPress={() => {
                   console.log('编辑')
                 }}
               />
               <SettingIcon
-                style={{ margin: 15 }}
+                style={{ margin: 15, width: 10, height: 10 }}
                 onPress={() => {
                   console.log('设定')
                 }}
