@@ -7,6 +7,7 @@ import { View } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import colors from '../styles/colors'
 import { Feather } from '@expo/vector-icons'
+import { TransitionPresets } from '@react-navigation/stack'
 
 const Stack = createNativeStackNavigator()
 const ProfileNavigator = () => {
@@ -15,41 +16,7 @@ const ProfileNavigator = () => {
       screenOptions={{
         headerShown: false
       }}>
-      <Stack.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          title: '',
-          headerStyle: {
-            backgroundColor: colors.primary
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            //fontWeight: 'bold'
-          },
-          headerRight: () => (
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-              {/*<Feather name="edit" size={24} color="white" />*/}
-              <EditIcon
-                onPress={() => {
-                  console.log('编辑')
-                }}
-              />
-              <SettingIcon
-                style={{ margin: 15, width: 10, height: 10 }}
-                onPress={() => {
-                  console.log('设定')
-                }}
-              />
-            </View>
-          )
-        }}
-      />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="Setting" component={SettingScreen} />
       <Stack.Screen name="Edit" component={EditScreen} />
     </Stack.Navigator>

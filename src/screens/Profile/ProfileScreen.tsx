@@ -14,11 +14,16 @@ import EditBtn from './component/EditBtn'
 import HorizontalLine from '../../components/HorizontalLine'
 import Detail from './component/Detail'
 import ProfileBody from './component/ProfileBody'
+import { useEffect } from 'react'
+import { appEmitter } from '../../utils/app.emitter'
 /* 屏幕的宽度 */
 const screenWidth = Dimensions.get('window').width
 /* 屏幕的高度 */
 const screenHeight = Dimensions.get('window').height
-export default function ProfileScreen() {
+export default function ProfileScreen({ navigation }) {
+  //useEffect(() => {
+  //  appEmitter.on(appEmitter.type.openDrawer, navigation.openDrawer)
+  //}, [])
   return (
     <SafeAreaView>
       <ProfileHeader />
@@ -28,7 +33,7 @@ export default function ProfileScreen() {
           end={{ x: 0, y: 1 }}
           colors={[colors.primary, colors.secondary]}
           style={styles.linearGradient}>
-          <ProfileBody />
+          <ProfileBody navigation={navigation} />
         </LinearGradient>
       </View>
     </SafeAreaView>

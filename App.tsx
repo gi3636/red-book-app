@@ -5,6 +5,7 @@ import useColorScheme from './src/hooks/useColorScheme'
 import Navigation from './src/navigation'
 import { NativeBaseProvider } from 'native-base'
 import { customTheme } from './src/styles/theme'
+import 'react-native-gesture-handler'
 export default function App() {
   const isLoadingComplete = useCachedResources()
   const colorScheme = useColorScheme()

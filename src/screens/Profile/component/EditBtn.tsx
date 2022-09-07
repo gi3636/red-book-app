@@ -3,8 +3,8 @@ import { View } from 'native-base'
 import { Button } from '@rneui/base'
 import colors from '../../../styles/colors'
 import { StyleSheet } from 'react-native'
-
-function EditBtn(props) {
+import { appEmitter } from '../../../utils/app.emitter'
+function EditBtn({ navigation }) {
   return (
     <View style={styles.editBtnContainer}>
       <Button
@@ -21,6 +21,9 @@ function EditBtn(props) {
         buttonStyle={{
           backgroundColor: 'white',
           borderRadius: 5
+        }}
+        onPress={() => {
+          navigation.push('Edit')
         }}
       />
     </View>

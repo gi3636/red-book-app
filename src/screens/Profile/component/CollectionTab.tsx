@@ -66,7 +66,7 @@ function CollectionTab(props) {
           icon={<FontAwesome5 name="lock" size={24} color={index === 2 ? colors.primary : colors.placeholder} />}
         />
       </Tab>
-      <TabView value={index} onChange={setIndex} animationType="spring">
+      <TabView value={index} onChange={setIndex}>
         <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>
           <MasonryList
             data={data}
