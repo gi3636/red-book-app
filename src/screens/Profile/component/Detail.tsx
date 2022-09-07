@@ -79,7 +79,7 @@ function Detail(props) {
       </View>
       <View style={{ paddingTop: 10 }}>
         <Text
-          numberOfLines={3}
+          numberOfLines={2}
           ellipsizeMode="tail"
           style={{
             color: colors.main_font,

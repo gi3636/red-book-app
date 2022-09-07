@@ -38,7 +38,7 @@ function CollectionTab(props) {
       <Tab
         value={index}
         onChange={(e) => setIndex(e)}
-        containerStyle={{ backgroundColor: 'white' }}
+        containerStyle={{ backgroundColor: 'white', marginBottom: 10 }}
         indicatorStyle={{
           marginLeft: '10%',
           width: '5%',
@@ -81,10 +81,30 @@ function CollectionTab(props) {
           />
         </TabView.Item>
         <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>
-          <Text>Favorite</Text>
+          <MasonryList
+            data={data}
+            keyExtractor={(item): string => item.id}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => <PreviewCard item={item} />}
+            refreshing={loading}
+            onRefresh={refreshData}
+            onEndReachedThreshold={0.2}
+            onEndReached={loadingData}
+          />
         </TabView.Item>
         <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>
-          <Text>Cart</Text>
+          <MasonryList
+            data={data}
+            keyExtractor={(item): string => item.id}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => <PreviewCard item={item} />}
+            refreshing={loading}
+            onRefresh={refreshData}
+            onEndReachedThreshold={0.2}
+            onEndReached={loadingData}
+          />
         </TabView.Item>
       </TabView>
     </View>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import MasonryList from '@react-native-seoul/masonry-list'
 import { Dimensions, ImageBackground, StyleSheet } from 'react-native'
 import { Text, View } from 'native-base'
@@ -34,23 +34,28 @@ function RecommendScreen(props) {
   useEffect(() => {
     refreshData()
   }, [])
+
+  const renderNoteList = useMemo(() => {
+    return (
+      <MasonryList
+        data={data}
+        keyExtractor={(item): string => item.id}
+        numColumns={2}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => <PreviewCard item={item} />}
+        refreshing={loading}
+        onRefresh={refreshData}
+        onEndReachedThreshold={0.2}
+        onEndReached={loadingData}
+      />
+    )
+  }, [data, loading])
+
   return (
     <LinearGradient colors={[colors.primary, colors.secondary]} style={styles.background}>
       <ImageBackground style={{ flex: 1 }} source={require('../../assets/images/bumble-bg.png')} resizeMode="contain">
         <View width="100%" height={screenHeight - 25} pt="82">
-          {data.length > 0 && (
-            <MasonryList
-              data={data}
-              keyExtractor={(item): string => item.id}
-              numColumns={2}
-              showsVerticalScrollIndicator={false}
-              renderItem={({ item }) => <PreviewCard item={item} />}
-              refreshing={loading}
-              onRefresh={refreshData}
-              onEndReachedThreshold={0.2}
-              onEndReached={loadingData}
-            />
-          )}
+          {data.length > 0 && renderNoteList}
         </View>
       </ImageBackground>
     </LinearGradient>

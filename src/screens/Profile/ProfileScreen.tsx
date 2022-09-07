@@ -43,30 +43,5 @@ const styles = StyleSheet.create({
   },
   linearGradient: {
     flex: 1
-  },
-  profileContainer: {
-    height: screenHeight,
-    width: screenWidth - 50,
-    marginLeft: 25,
-    marginTop: 60,
-    borderRadius: 20,
-    backgroundColor: colors.white,
-    alignItems: 'center'
-  },
-  editBtnContainer: {
-    position: 'absolute',
-    top: 10,
-    right: 15
-  },
-  editBtn: {
-    width: '20%',
-    borderRadius: 20
-  },
-  content: {
-    position: 'relative',
-    width: '90%',
-    borderRadius: 20,
-    alignItems: 'center',
-    top: -50
   }
 })

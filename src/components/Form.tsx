@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Controller, useForm } from 'react-hook-form'
 import colors from '../styles/colors'
@@ -21,10 +21,10 @@ function Form({ fields, onSubmit, form }: FormProps) {
         return ''
       }
       return (
-        <>
+        <Fragment key={Math.random()}>
           <Controller key={Math.random()} control={control} name={item.name} {...item.props} />
           {errors[item.name] && <Text key={Math.random()} style={styles.errorText}>{`请输入${item.label}`}</Text>}
-        </>
+        </Fragment>
       )
     })
   }

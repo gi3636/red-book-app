@@ -4,7 +4,7 @@ import { getStorageToken } from '../utils/storage'
 
 export let api
 
-const api_url = 'http://192.168.254.109:8080/'
+const api_url = 'http://192.168.0.167:8080/'
 api = axios.create({
   baseURL: api_url
   //headers: {  },
@@ -20,7 +20,7 @@ api.interceptors.request.use(async function (config) {
 
 api.interceptors.response.use(
   function (res) {
-    console.log('res111', res)
+    console.log('返回结果：', res)
     if (res.data) {
       if (res.data.code === 47000) {
         //if (system.pc) {
@@ -38,7 +38,7 @@ api.interceptors.response.use(
     return res.data
   },
   function (res) {
-    console.log('res111111', res)
+    console.log('异常消息：', res)
     try {
       let { status, data } = res.response
       console.error('status', status)

@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import { AspectRatio, Avatar, Box, HStack, Image, Skeleton, Stack, Text } from 'native-base'
-import { Feather, FontAwesome } from '@expo/vector-icons'
+import React from 'react'
+import { Box, Stack, Text } from 'native-base'
 import colors from '../../styles/colors'
 import PreviewImage from './PreviewImage'
 import PreviewFooter from './PreviewFooter'
@@ -8,6 +7,7 @@ import PreviewFooter from './PreviewFooter'
 function PreviewCard({ item }) {
   return (
     <Box
+      key={item.id}
       overflow="hidden"
       width="95%"
       rounded="lg"

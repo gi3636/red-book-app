@@ -16,6 +16,7 @@ export const fields = (show, setShow, isLogin) => [
       },
       render: ({ field: { onChange, onBlur, value } }) => (
         <Input
+          key={Math.random()}
           _light={{
             color: 'black',
             backgroundColor: 'white'
@@ -38,7 +39,7 @@ export const fields = (show, setShow, isLogin) => [
         required: true
       },
       render: ({ field: { onChange, onBlur, value } }) => (
-        <View style={{ marginTop: 12 }}>
+        <View style={{ marginTop: 12 }} key={Math.random()}>
           <Input
             _light={{
               color: 'black',
@@ -77,7 +78,7 @@ export const fields = (show, setShow, isLogin) => [
         required: true
       },
       render: ({ field: { onChange, onBlur, value } }) => (
-        <View style={{ marginTop: 12 }}>
+        <View style={{ marginTop: 12 }} key={Math.random()}>
           <Input
             _light={{
               color: 'black',
