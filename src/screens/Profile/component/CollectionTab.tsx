@@ -14,7 +14,7 @@ function CollectionTab(props) {
   const refreshData = async () => {
     setLoading(true)
     if (!loading) {
-      let res = await api.get('https://mock.apifox.cn/m1/1170334-0-default/recommed')
+      let res = await api.get('https://mock.apifox.cn/m1/1170334-0-default/recomment')
       console.log('res', res)
       setData(res.data)
     }
@@ -23,7 +23,7 @@ function CollectionTab(props) {
   const loadingData = async () => {
     setLoading(true)
     if (!loading) {
-      let res = await api.get('https://mock.apifox.cn/m1/1170334-0-default/recommed')
+      let res = await api.get('https://mock.apifox.cn/m1/1170334-0-default/recomment')
       console.log('res', res)
       //@ts-ignore
       setData([...data, ...res.data])
@@ -47,66 +47,66 @@ function CollectionTab(props) {
           borderWidth: 0,
           borderRadius: 10
         }}>
-        <Tab.Item
-          containerStyle={{ backgroundColor: 'white' }}
-          icon={
-            <MaterialCommunityIcons
-              name="collage"
-              size={26}
-              color={index === 0 ? colors.primary : colors.placeholder}
-            />
-          }
-        />
-        <Tab.Item
-          containerStyle={{ backgroundColor: 'white' }}
-          icon={<AntDesign name="heart" size={24} color={index === 1 ? colors.primary : colors.placeholder} />}
-        />
-        <Tab.Item
-          containerStyle={{ backgroundColor: 'white' }}
-          icon={<FontAwesome5 name="lock" size={24} color={index === 2 ? colors.primary : colors.placeholder} />}
-        />
+        {/*<Tab.Item*/}
+        {/*  containerStyle={{ backgroundColor: 'white' }}*/}
+        {/*  icon={*/}
+        {/*    <MaterialCommunityIcons*/}
+        {/*      name="collage"*/}
+        {/*      size={26}*/}
+        {/*      color={index === 0 ? colors.primary : colors.placeholder}*/}
+        {/*    />*/}
+        {/*  }*/}
+        {/*/>*/}
+        {/*<Tab.Item*/}
+        {/*  containerStyle={{ backgroundColor: 'white' }}*/}
+        {/*  icon={<AntDesign name="heart" size={24} color={index === 1 ? colors.primary : colors.placeholder} />}*/}
+        {/*/>*/}
+        {/*<Tab.Item*/}
+        {/*  containerStyle={{ backgroundColor: 'white' }}*/}
+        {/*  icon={<FontAwesome5 name="lock" size={24} color={index === 2 ? colors.primary : colors.placeholder} />}*/}
+        {/*/>*/}
       </Tab>
-      <TabView value={index} onChange={setIndex}>
-        <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>
-          <MasonryList
-            data={data}
-            keyExtractor={(item): string => item.id}
-            numColumns={2}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => <PreviewCard item={item} />}
-            refreshing={loading}
-            onRefresh={refreshData}
-            onEndReachedThreshold={0.2}
-            onEndReached={loadingData}
-          />
-        </TabView.Item>
-        <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>
-          <MasonryList
-            data={data}
-            keyExtractor={(item): string => item.id}
-            numColumns={2}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => <PreviewCard item={item} />}
-            refreshing={loading}
-            onRefresh={refreshData}
-            onEndReachedThreshold={0.2}
-            onEndReached={loadingData}
-          />
-        </TabView.Item>
-        <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>
-          <MasonryList
-            data={data}
-            keyExtractor={(item): string => item.id}
-            numColumns={2}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => <PreviewCard item={item} />}
-            refreshing={loading}
-            onRefresh={refreshData}
-            onEndReachedThreshold={0.2}
-            onEndReached={loadingData}
-          />
-        </TabView.Item>
-      </TabView>
+      {/*<TabView value={index} onChange={setIndex}>*/}
+      {/*  <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>*/}
+      {/*    <MasonryList*/}
+      {/*      data={data}*/}
+      {/*      keyExtractor={(item): string => item.id}*/}
+      {/*      numColumns={2}*/}
+      {/*      showsVerticalScrollIndicator={false}*/}
+      {/*      renderItem={({ item }) => <PreviewCard item={item} />}*/}
+      {/*      refreshing={loading}*/}
+      {/*      onRefresh={refreshData}*/}
+      {/*      onEndReachedThreshold={0.2}*/}
+      {/*      onEndReached={loadingData}*/}
+      {/*    />*/}
+      {/*  </TabView.Item>*/}
+      {/*  <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>*/}
+      {/*    <MasonryList*/}
+      {/*      data={data}*/}
+      {/*      keyExtractor={(item): string => item.id}*/}
+      {/*      numColumns={2}*/}
+      {/*      showsVerticalScrollIndicator={false}*/}
+      {/*      renderItem={({ item }) => <PreviewCard item={item} />}*/}
+      {/*      refreshing={loading}*/}
+      {/*      onRefresh={refreshData}*/}
+      {/*      onEndReachedThreshold={0.2}*/}
+      {/*      onEndReached={loadingData}*/}
+      {/*    />*/}
+      {/*  </TabView.Item>*/}
+      {/*  <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>*/}
+      {/*    <MasonryList*/}
+      {/*      data={data}*/}
+      {/*      keyExtractor={(item): string => item.id}*/}
+      {/*      numColumns={2}*/}
+      {/*      showsVerticalScrollIndicator={false}*/}
+      {/*      renderItem={({ item }) => <PreviewCard item={item} />}*/}
+      {/*      refreshing={loading}*/}
+      {/*      onRefresh={refreshData}*/}
+      {/*      onEndReachedThreshold={0.2}*/}
+      {/*      onEndReached={loadingData}*/}
+      {/*    />*/}
+      {/*  </TabView.Item>*/}
+      {/*</TabView>*/}
     </View>
   )
 }

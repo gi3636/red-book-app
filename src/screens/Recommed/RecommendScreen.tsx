@@ -15,7 +15,7 @@ function RecommendScreen(props) {
   const refreshData = async () => {
     setLoading(true)
     if (!loading) {
-      let res = await api.get('https://mock.apifox.cn/m1/1170334-0-default/recommed')
+      let res = await api.get('https://mock.apifox.cn/m1/1170334-0-default/recomment')
       console.log('res', res)
       setData(res.data)
     }
@@ -24,7 +24,7 @@ function RecommendScreen(props) {
   const loadingData = async () => {
     setLoading(true)
     if (!loading) {
-      let res = await api.get('https://mock.apifox.cn/m1/1170334-0-default/recommed')
+      let res = await api.get('https://mock.apifox.cn/m1/1170334-0-default/recomment')
       console.log('res', res)
       //@ts-ignore
       setData([...data, ...res.data])

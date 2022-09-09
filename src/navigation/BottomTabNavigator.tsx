@@ -7,7 +7,9 @@ import colors from '../styles/colors'
 import ProfileNavigator from './ProfileNavigator'
 import MessageScreen from '../screens/Message/MessageScreen'
 import UploadIcon from '../assets/images/upload-btn.svg'
-import HomeTopTabNavigator from './HomeTopTabNavigator'
+import TouchableScale from 'react-native-touchable-scale'
+import { useNavigation } from '@react-navigation/native'
+
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
  * https://reactnavigation.org/docs/bottom-tab-navigator
@@ -16,7 +18,7 @@ const BottomTab = createBottomTabNavigator()
 
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme()
-
+  const navigation = useNavigation()
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
@@ -71,7 +73,15 @@ export default function BottomTabNavigator() {
         component={HomeScreen}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({ color, size }) => <UploadIcon style={{ width: '100%', height: '100%', padding: 30 }} />,
+          tabBarIcon: ({ color, size }) => (
+            <TouchableScale
+              activeScale={0.95}
+              onPress={() => {
+                navigation.navigate('Shop')
+              }}>
+              <UploadIcon style={{ width: '100%', height: '100%', padding: 30 }} />
+            </TouchableScale>
+          ),
           tabBarItemStyle: { marginBottom: 10 }
         }}
       />
