@@ -13,11 +13,14 @@ import { Button } from '@rneui/base'
 
 import { saveStorageToken, saveStorageUser } from '../../utils/storage'
 import { authService } from '../../api'
+import { updateUser } from '../../store/user/slice'
+import { useDispatch } from 'react-redux'
 
 export default function LoginScreen({ navigation }) {
   const [loading, setLoading] = useState(false)
   const [isLogin, setIsLogin] = useState(true)
   const [show, setShow] = React.useState(false)
+  const dispatch = useDispatch()
   const toast = useToast()
   const form = useForm({
     defaultValues: {
@@ -29,20 +32,25 @@ export default function LoginScreen({ navigation }) {
 
   const onSubmit = async (data) => {
     setLoading(true)
-    let res = isLogin ? await authService.login(data) : await authService.register(data)
-    if (res.code === 200) {
-      if (isLogin) {
-        saveStorageToken(res.data.token)
-        saveStorageUser(res.data)
-        toast.show({ title: '登入成功', placement: 'top' })
-        navigation.replace('Root')
+    try {
+      let res = isLogin ? await authService.login(data) : await authService.register(data)
+      if (res.code === 200) {
+        if (isLogin) {
+          saveStorageToken(res.data.token)
+          saveStorageUser(res.data)
+          dispatch(updateUser(res.data))
+          toast.show({ title: '登入成功', placement: 'top' })
+          navigation.replace('Root')
+        } else {
+          form.reset()
+          toast.show({ title: '注册成功', placement: 'top' })
+          setIsLogin(true)
+        }
       } else {
-        form.reset()
-        toast.show({ title: '注册成功', placement: 'top' })
-        setIsLogin(true)
+        toast.show({ title: res.message })
       }
-    } else {
-      toast.show({ title: res.message })
+    } catch (e) {
+      console.log('错误', e)
     }
     setLoading(false)
   }

@@ -1,5 +1,6 @@
 /** @format */
 
 import * as authService from './auth'
+import * as userService from './user'
 
-export { authService }
+export { authService, userService }

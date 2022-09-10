@@ -6,6 +6,8 @@ import Navigation from './src/navigation'
 import { NativeBaseProvider } from 'native-base'
 import { customTheme } from './src/styles/theme'
 import 'react-native-gesture-handler'
+import store from './src/store'
+import { Provider } from 'react-redux'
 export default function App() {
   const isLoadingComplete = useCachedResources()
   const colorScheme = useColorScheme()
@@ -15,10 +17,12 @@ export default function App() {
   }
   return (
     <SafeAreaProvider>
-      <NativeBaseProvider theme={customTheme}>
-        <Navigation colorScheme={colorScheme} />
-      </NativeBaseProvider>
-      <StatusBar />
+      <Provider store={store}>
+        <NativeBaseProvider theme={customTheme}>
+          <Navigation colorScheme={colorScheme} />
+        </NativeBaseProvider>
+        <StatusBar />
+      </Provider>
     </SafeAreaProvider>
   )
 }
