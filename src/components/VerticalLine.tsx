@@ -9,11 +9,11 @@ function HorizontalLine({ style }: { style?: any }) {
 
 const styles = StyleSheet.create({
   line: {
-    opacity: 0.5,
-    marginTop: 10,
+    marginTop: 5,
     backgroundColor: colors.placeholder,
-    height: 1,
-    width: '100%'
+    width: 1,
+    height: '80%',
+    borderRadius: 20
   }
 })
 

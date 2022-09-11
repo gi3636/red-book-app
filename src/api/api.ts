@@ -4,7 +4,7 @@ import { getStorageToken } from '../utils/storage'
 
 export let api
 
-const api_url = 'http://192.168.0.167:8080/'
+const api_url = 'http://192.168.254.104:8080/'
 api = axios.create({
   baseURL: api_url
   //headers: {  },
@@ -20,7 +20,6 @@ api.interceptors.request.use(async function (config) {
 
 api.interceptors.response.use(
   function (res) {
-    console.log('返回结果：', res)
     if (res.data) {
       if (res.data.code === 47000) {
         //if (system.pc) {
@@ -41,8 +40,6 @@ api.interceptors.response.use(
     console.log('异常消息：', res)
     try {
       let { status, data } = res.response
-      console.error('status', status)
-      console.error('res', res)
       if (status === 401) {
         let msg = '登录信息已过期，请重新登录'
         console.log('登录信息已过期，请重新登录')

@@ -1,9 +1,9 @@
-import {LinearGradient} from 'expo-linear-gradient'
+import { LinearGradient } from 'expo-linear-gradient'
 import * as React from 'react'
-import {Dimensions, StyleSheet} from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 import colors from '../../styles/colors'
-import {SafeAreaView} from 'react-native-safe-area-context'
-import {View} from 'native-base'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { View } from 'native-base'
 import ProfileHeader from './component/ProfileHeader'
 import ProfileBody from './component/ProfileBody'
 /* 屏幕的宽度 */
@@ -11,7 +11,6 @@ const screenWidth = Dimensions.get('window').width
 /* 屏幕的高度 */
 const screenHeight = Dimensions.get('window').height
 export default function ProfileScreen({ navigation }) {
-
   return (
     <SafeAreaView>
       <ProfileHeader />
@@ -36,30 +35,5 @@ const styles = StyleSheet.create({
   },
   linearGradient: {
     flex: 1
-  },
-  profileContainer: {
-    height: screenHeight,
-    width: screenWidth - 50,
-    marginLeft: 25,
-    marginTop: 60,
-    borderRadius: 20,
-    backgroundColor: colors.white,
-    alignItems: 'center'
-  },
-  editBtnContainer: {
-    position: 'absolute',
-    top: 10,
-    right: 15
-  },
-  editBtn: {
-    width: '20%',
-    borderRadius: 20
-  },
-  content: {
-    position: 'relative',
-    width: '90%',
-    borderRadius: 20,
-    alignItems: 'center',
-    top: -50
   }
 })

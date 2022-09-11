@@ -15,7 +15,7 @@ function CollectionTab(props) {
     setLoading(true)
     if (!loading) {
       let res = await api.get('https://mock.apifox.cn/m1/1170334-0-default/recomment')
-      console.log('res', res)
+      // console.log('res', res)
       setData(res.data)
     }
     setLoading(false)
@@ -24,7 +24,7 @@ function CollectionTab(props) {
     setLoading(true)
     if (!loading) {
       let res = await api.get('https://mock.apifox.cn/m1/1170334-0-default/recomment')
-      console.log('res', res)
+      // console.log('res', res)
       //@ts-ignore
       setData([...data, ...res.data])
     }

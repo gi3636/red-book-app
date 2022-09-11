@@ -1,14 +1,45 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Flex, View } from 'native-base'
 import { Text } from '@rneui/base'
 import colors from '../../../styles/colors'
+import HorizontalLine from '../../../components/VerticalLine'
+import TouchableScale from 'react-native-touchable-scale'
+import * as Animatable from 'react-native-animatable'
 
-function Detail(props) {
+function Detail({ myself }) {
+  const [collapsed, setCollapsed] = React.useState(true)
+  const [collapsedProps, setCollapsedProps] = React.useState({
+    /** 文本是否展开 */
+    expanded: true,
+    numberOfLines: 0,
+    /** 展开收起文字是否处于显示状态 */
+    showExpandText: false,
+    maxHeight: 0,
+    minHeight: 0
+  })
+
+  const slideDown = {
+    from: {
+      height: collapsedProps.minHeight
+    },
+    to: {
+      height: collapsedProps.maxHeight
+    }
+  }
+
+  const handleCollapse = () => {
+    setCollapsed(!collapsed)
+    setCollapsedProps({ ...collapsedProps, numberOfLines: collapsed ? 100 : 2 })
+  }
+
+  useEffect(() => {}, [])
+
   return (
     <>
       {/* 关注，分数，获得赞*/}
       <View
         style={{
+          marginTop: 10,
           marginLeft: '3%',
           width: '95%',
           flexDirection: 'row',
@@ -29,15 +60,7 @@ function Detail(props) {
           </View>
         </View>
         {/* 竖线 */}
-        <View
-          style={{
-            marginTop: 5,
-            backgroundColor: colors.placeholder,
-            width: 1,
-            height: '80%',
-            borderRadius: 20
-          }}
-        />
+        <HorizontalLine />
         {/* 粉丝 */}
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View style={{ alignItems: 'center' }}>
@@ -53,15 +76,7 @@ function Detail(props) {
           </View>
         </View>
         {/* 竖线 */}
-        <View
-          style={{
-            marginTop: 5,
-            backgroundColor: colors.placeholder,
-            width: 1,
-            height: '80%',
-            borderRadius: 20
-          }}
-        />
+        <HorizontalLine />
         {/* 获赞 */}
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View style={{ alignItems: 'center' }}>
@@ -78,26 +93,42 @@ function Detail(props) {
         </View>
       </View>
       <View style={{ paddingTop: 10 }}>
-        <Text
-          numberOfLines={2}
-          ellipsizeMode="tail"
-          style={{
-            color: colors.main_font,
-            fontSize: 14
+        <View
+          onLayout={(e) => {
+            let { height } = e.nativeEvent.layout
+            if (!collapsedProps.maxHeight || !collapsedProps.minHeight) {
+              if (!collapsedProps.maxHeight) {
+                setCollapsedProps({ ...collapsedProps, maxHeight: height, numberOfLines: 2 })
+              } else {
+                setCollapsedProps({ ...collapsedProps, minHeight: height, expanded: collapsedProps.maxHeight > height })
+              }
+            }
           }}>
-          当来到一个新环境时，时常需要我们进行一个自我介绍，自我介绍是人与人进行沟通的出发点。写起自我自我介绍是人与人进行沟通的出发点。写起自
-          份未发未发对方快来解放昆仑山搭街坊去给分effe
-        </Text>
-        <Flex>
-          <Text
+          <Animatable.Text
+            animation={collapsed ? undefined : slideDown}
+            numberOfLines={collapsedProps.numberOfLines}
+            ellipsizeMode="tail"
             style={{
-              paddingTop: 2,
-              color: colors.primary,
-              alignSelf: 'flex-end'
+              color: colors.main_font,
+              fontSize: 14
             }}>
-            查看更多
-          </Text>
-        </Flex>
+            {myself.description}
+          </Animatable.Text>
+        </View>
+        {collapsedProps.expanded && (
+          <Flex>
+            <TouchableScale friction={90} tension={100} activeScale={0.95} onPress={handleCollapse}>
+              <Text
+                style={{
+                  paddingTop: 2,
+                  color: colors.primary,
+                  alignSelf: 'flex-end'
+                }}>
+                {collapsed ? '展开' : '收起'}
+              </Text>
+            </TouchableScale>
+          </Flex>
+        )}
       </View>
     </>
   )
