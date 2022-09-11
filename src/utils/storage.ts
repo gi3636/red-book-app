@@ -34,3 +34,12 @@ export const saveStorageUser = async (user) => {
     console.log('saveUser', e.message)
   }
 }
+
+export const clearUserStorage = async () => {
+  const keys = ['user', 'token']
+  try {
+    await AsyncStorage.multiRemove(keys)
+  } catch (e: any) {
+    console.log('clearUserStorage', e.message)
+  }
+}

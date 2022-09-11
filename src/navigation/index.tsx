@@ -7,14 +7,32 @@
 
 import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native'
 import * as React from 'react'
+import { useEffect, useState } from 'react'
 import { ColorSchemeName } from 'react-native'
 
 import RootNavigator from './RootNavigator'
+import { getStorageUser } from '../utils/storage'
+import { useDispatch } from 'react-redux'
+import { updateUser } from '../store/user/slice'
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+  const dispatch = useDispatch()
+  const [loadData, setLoadData] = useState(true)
+
+  useEffect(() => {
+    getStorageUser().then((res: any) => {
+      dispatch(updateUser(res))
+      setLoadData(false)
+    })
+  }, [])
+
   return (
-    <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RootNavigator />
-    </NavigationContainer>
+    <>
+      {!loadData && (
+        <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <RootNavigator />
+        </NavigationContainer>
+      )}
+    </>
   )
 }

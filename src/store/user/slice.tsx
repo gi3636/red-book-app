@@ -1,25 +1,25 @@
 /** @format */
 
 import { createSlice } from '@reduxjs/toolkit'
+import { clearUserStorage, saveStorageUser } from '../../utils/storage'
 
 export interface UserState {}
 
-const initialState: UserState = {
-  // username: '123',
-}
-
+const initialState: UserState = {}
 const UserSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     updateUser: (state, action) => {
       let data = action.payload
-      return {
-        ...state,
-        ...data
-      }
+      let newData = { ...state, ...data }
+      saveStorageUser(newData)
+      return newData
     },
-    userLogout: (state) => initialState
+    userLogout: (state) => {
+      clearUserStorage()
+      return initialState
+    }
   }
 })
 export const { updateUser, userLogout } = UserSlice.actions

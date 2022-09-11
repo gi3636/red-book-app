@@ -37,7 +37,6 @@ export default function LoginScreen({ navigation }) {
       if (res.code === 200) {
         if (isLogin) {
           saveStorageToken(res.data.token)
-          saveStorageUser(res.data)
           dispatch(updateUser(res.data))
           toast.show({ title: '登入成功', placement: 'top' })
           navigation.replace('Root')
