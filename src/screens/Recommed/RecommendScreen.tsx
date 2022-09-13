@@ -7,9 +7,11 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { api } from '../../api/api'
 import throttle from 'lodash/throttle'
 import PreviewCard from '../../components/PreviewCard/PreviewCard'
+import TouchableScale from 'react-native-touchable-scale'
 
 const screenHeight = Dimensions.get('window').height
-function RecommendScreen(props) {
+function RecommendScreen({ navigation }) {
+  // const navigation = useNavigation()
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const refreshData = async () => {
@@ -42,7 +44,18 @@ function RecommendScreen(props) {
         keyExtractor={(item): string => item.id}
         numColumns={2}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => <PreviewCard item={item} />}
+        renderItem={({ item }) => (
+          <TouchableScale
+            friction={90}
+            tension={100}
+            activeScale={0.95}
+            onPress={() => {
+              navigation.navigate('Note', item)
+              console.log('item', item)
+            }}>
+            <PreviewCard item={item} />
+          </TouchableScale>
+        )}
         refreshing={loading}
         onRefresh={refreshData}
         onEndReachedThreshold={0.2}

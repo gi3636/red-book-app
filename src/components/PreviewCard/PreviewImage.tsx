@@ -7,7 +7,7 @@ function PreviewImage({ item }) {
       <AspectRatio w="100%" ratio={item.like ? 3 / 4 : 16 / 9}>
         <Image
           source={{
-            uri: `https://avatars1.githubusercontent.com/u/${item.avatar}`
+            uri: `https://avatars1.githubusercontent.com/u/${item.avatar + 1}`
           }}
           alt="image"
         />
