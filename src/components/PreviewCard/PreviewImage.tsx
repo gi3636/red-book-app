@@ -1,5 +1,8 @@
 import React from 'react'
 import { AspectRatio, Box, Image } from 'native-base'
+import CachedImage from 'expo-cached-image'
+import { ActivityIndicator } from 'react-native'
+import colors from '../../styles/colors'
 
 function PreviewImage({ item }) {
   return (

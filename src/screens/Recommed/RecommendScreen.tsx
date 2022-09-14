@@ -5,34 +5,32 @@ import { Text, View } from 'native-base'
 import colors from '../../styles/colors'
 import { LinearGradient } from 'expo-linear-gradient'
 import { api } from '../../api/api'
-import throttle from 'lodash/throttle'
 import PreviewCard from '../../components/PreviewCard/PreviewCard'
 import TouchableScale from 'react-native-touchable-scale'
+import { throttle } from '../../utils'
 
 const screenHeight = Dimensions.get('window').height
 function RecommendScreen({ navigation }) {
   // const navigation = useNavigation()
   const [loading, setLoading] = useState(false)
-  const [data, setData] = useState([])
+  const [data, setData] = useState<Array<any>>([])
   const refreshData = async () => {
     setLoading(true)
     if (!loading) {
+      console.log('刷新数据')
       let res = await api.get('https://mock.apifox.cn/m1/1170334-0-default/recomment')
-      console.log('res', res)
       setData(res.data)
     }
     setLoading(false)
   }
-  const loadingData = async () => {
-    setLoading(true)
-    if (!loading) {
-      let res = await api.get('https://mock.apifox.cn/m1/1170334-0-default/recomment')
-      console.log('res', res)
-      //@ts-ignore
-      setData([...data, ...res.data])
-    }
-    setLoading(false)
-  }
+  const loadingData = throttle(async () => {
+    console.log('加载数据')
+    let res = await api.get('https://mock.apifox.cn/m1/1170334-0-default/recomment')
+    //@ts-ignore
+    setData([...data, ...res.data])
+    console.log('长度', data.length)
+  }, 2000)
+
   useEffect(() => {
     refreshData()
   }, [])
@@ -46,6 +44,7 @@ function RecommendScreen({ navigation }) {
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <TouchableScale
+            key={item.id}
             friction={90}
             tension={100}
             activeScale={0.95}
@@ -58,7 +57,7 @@ function RecommendScreen({ navigation }) {
         )}
         refreshing={loading}
         onRefresh={refreshData}
-        onEndReachedThreshold={0.2}
+        onEndReachedThreshold={0.5}
         onEndReached={loadingData}
       />
     )

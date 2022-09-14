@@ -2,9 +2,7 @@ import React from 'react'
 import { Avatar, HStack, Text } from 'native-base'
 import colors from '../../styles/colors'
 import { Feather, FontAwesome } from '@expo/vector-icons'
-
 function PreviewFooter({ item }) {
-  console.log('item.id', item.id)
   return (
     <HStack alignItems="center" space={4} justifyContent="space-around">
       <HStack alignItems="center">
@@ -12,7 +10,6 @@ function PreviewFooter({ item }) {
           bg="coolGray.200"
           size="xs"
           source={{
-            //uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
             uri: `https://avatars1.githubusercontent.com/u/${item.avatar}`
           }}>
           AJ
