@@ -64,13 +64,16 @@ function RecommendScreen({ navigation }) {
   }, [data, loading])
 
   return (
-    <LinearGradient colors={[colors.primary, colors.secondary]} style={styles.background}>
-      <ImageBackground style={{ flex: 1 }} source={require('../../assets/images/bumble-bg.png')} resizeMode="contain">
-        <View width="100%" height={screenHeight - 25} pt="82">
-          {data.length > 0 && renderNoteList}
-        </View>
-      </ImageBackground>
-    </LinearGradient>
+    //<LinearGradient colors={[colors.primary, colors.secondary]} style={styles.background}>
+    <ImageBackground
+      style={{ flex: 1, backgroundColor: colors.primary }}
+      source={require('../../assets/images/bumble-bg.png')}
+      resizeMode="contain">
+      <View width="100%" height={screenHeight - 25} pt="82">
+        {data.length > 0 && renderNoteList}
+      </View>
+    </ImageBackground>
+    //</LinearGradient>
   )
 }
 const styles = StyleSheet.create({

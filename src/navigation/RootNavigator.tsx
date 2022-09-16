@@ -11,6 +11,7 @@ import NoteScreen from '../screens/Note/NoteScreen'
 import CustomNoteHeader from '../components/CustomNoteHeader'
 import colors from '../styles/colors'
 import { useRoute } from '@react-navigation/native'
+import { AntDesign } from '@expo/vector-icons'
 /**
  * A root stack navigator is often used for displaying modals on top of all other content.
  * https://reactnavigation.org/docs/modal
@@ -36,6 +37,9 @@ export default function RootNavigator() {
           headerTitle: () => <CustomNoteHeader />,
           headerStyle: {
             backgroundColor: colors.primary
+          },
+          headerRight: () => {
+            return <AntDesign name="sharealt" size={22} color="white" />
           },
           headerShadowVisible: true,
           headerTintColor: colors.white,
