@@ -22,3 +22,17 @@ export function throttle(fn, delay) {
     }, delay)
   }
 }
+
+//数组去重
+export function unique(arr: Array<any>, key: string) {
+  let newArr = []
+  let obj = {}
+  for (var i = 0; i < arr.length; i++) {
+    if (!obj[arr[i][key]]) {
+      // @ts-ignore
+      newArr.push(arr[i])
+      obj[arr[i][key]] = true
+    }
+  }
+  return newArr
+}

@@ -42,6 +42,7 @@ function ImageSwiper({ item }) {
 }
 const styles = StyleSheet.create({
   wrapper: {
+    backgroundColor: 'white',
     height: '100%'
   },
   slide: {

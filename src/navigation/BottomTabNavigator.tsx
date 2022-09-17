@@ -9,6 +9,7 @@ import MessageScreen from '../screens/Message/MessageScreen'
 import UploadIcon from '../assets/images/upload-btn.svg'
 import TouchableScale from 'react-native-touchable-scale'
 import { useNavigation } from '@react-navigation/native'
+import UploadScreen from '../screens/Upload/UploadScreen'
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
@@ -70,19 +71,30 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Upload"
-        component={HomeScreen}
+        component={UploadScreen}
         options={{
+          headerShown: false,
           tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
             <TouchableScale
               activeScale={0.95}
               onPress={() => {
-                navigation.navigate('Shop')
+                // @ts-ignore
+                navigation.navigate('Upload')
               }}>
               <UploadIcon style={{ width: '100%', height: '100%', padding: 30 }} />
             </TouchableScale>
           ),
-          tabBarItemStyle: { marginBottom: 10 }
+          tabBarItemStyle: { marginBottom: 10 },
+          headerStyle: {
+            backgroundColor: colors.primary
+          },
+          headerRight: () => {
+            return <AntDesign name="exclamationcircleo" size={20} color="white" style={{ marginRight: 10 }} />
+          },
+          headerShadowVisible: true,
+          headerTitle: '添加笔记',
+          headerTintColor: colors.white
         }}
       />
       <BottomTab.Screen

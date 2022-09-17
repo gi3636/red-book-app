@@ -12,6 +12,7 @@ import CustomNoteHeader from '../components/CustomNoteHeader'
 import colors from '../styles/colors'
 import { useRoute } from '@react-navigation/native'
 import { AntDesign } from '@expo/vector-icons'
+import CustomImagePicker from '../components/CustomImagePicker'
 /**
  * A root stack navigator is often used for displaying modals on top of all other content.
  * https://reactnavigation.org/docs/modal
@@ -48,6 +49,13 @@ export default function RootNavigator() {
           }
         }}
       />
+      {/*<Stack.Screen*/}
+      {/*  name="ImagePicker"*/}
+      {/*  component={CustomImagePicker}*/}
+      {/*  options={{*/}
+      {/*    headerShown: false*/}
+      {/*  }}*/}
+      {/*/>*/}
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
