@@ -11,6 +11,10 @@ api = axios.create({
 })
 api.defaults.timeout = 5000
 api.interceptors.request.use(async function (config) {
+  console.log('请求链接：', config.url)
+  console.log('请求参数：', config.data)
+  // console.log('请求：', config)
+
   let token = await getStorageToken()
   if (token) {
     config.headers.token = token

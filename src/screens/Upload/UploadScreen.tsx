@@ -1,11 +1,10 @@
 import colors from '../../styles/colors'
-import React, { useEffect, useState } from 'react'
-import { AlertDialog, Text, View } from 'native-base'
+import React, { useState } from 'react'
+import { Text, View } from 'native-base'
 import { Button, Image } from '@rneui/base'
 import { Alert, Dimensions, ImageBackground, ScrollView, StyleSheet } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
 import CustomImagePicker from '../../components/CustomImagePicker'
-import { appEmitter } from '../../utils/app.emitter'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CustomInput from '../../components/CustomInput'
 import CustomTextArea from '../../components/CustomTextArea'
@@ -25,7 +24,7 @@ export default function UploadScreen() {
       Alert.alert('最多只能上传8张图片')
       return
     }
-    setSelectedImage(newData)
+
     setPickImage(false)
   }
 
@@ -40,12 +39,6 @@ export default function UploadScreen() {
     let temp = selectedImage.filter((i: any) => i.id !== item.id)
     setSelectedImage(temp)
   }
-
-  useEffect(() => {
-    appEmitter.on('upload', () => {
-      console.log('upload')
-    })
-  }, [])
 
   return (
     <>
@@ -123,6 +116,7 @@ export default function UploadScreen() {
       )}
       <ConfirmModal
         isOpen={isModalOpen}
+        content="是否确认发布？"
         onClose={setIsModalOpen.bind(null, false)}
         onConfirm={() => {
           console.log('测试')
