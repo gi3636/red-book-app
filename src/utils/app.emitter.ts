@@ -3,6 +3,7 @@
 import { Emmiter } from './E'
 
 enum AppEmitterType {
+  loading,
   editData,
   openDrawer,
   voiceStop,

@@ -14,12 +14,19 @@ import RootNavigator from './RootNavigator'
 import { getStorageUser } from '../utils/storage'
 import { useDispatch } from 'react-redux'
 import { updateUser } from '../store/user/slice'
+import CustomLoading from '../components/CustomLoading'
+import { appEmitter } from '../utils/app.emitter'
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   const dispatch = useDispatch()
   const [loadData, setLoadData] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    appEmitter.on(appEmitter.type.loading, () => {
+      setLoading(!loading)
+    })
+
     getStorageUser().then((res: any) => {
       dispatch(updateUser(res))
       setLoadData(false)
@@ -31,6 +38,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
       {!loadData && (
         <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
           <RootNavigator />
+          <CustomLoading loading={loading} />
         </NavigationContainer>
       )}
     </>

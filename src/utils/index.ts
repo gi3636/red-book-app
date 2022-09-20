@@ -36,3 +36,12 @@ export function unique(arr: Array<any>, key: string) {
   }
   return newArr
 }
+
+export function jointString(arr: Array<String>) {
+  let str = ''
+  arr.map((item) => {
+    str += item + ','
+  })
+  str.substring(0, str.length - 1)
+  return str
+}

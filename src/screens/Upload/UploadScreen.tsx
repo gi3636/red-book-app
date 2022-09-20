@@ -1,6 +1,6 @@
 import colors from '../../styles/colors'
 import React, { useState } from 'react'
-import { Text, View } from 'native-base'
+import { Spinner, Text, View } from 'native-base'
 import { Button, Image } from '@rneui/base'
 import { Alert, Dimensions, ImageBackground, ScrollView, StyleSheet } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
@@ -8,8 +8,10 @@ import CustomImagePicker from '../../components/CustomImagePicker'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CustomInput from '../../components/CustomInput'
 import CustomTextArea from '../../components/CustomTextArea'
-import { unique } from '../../utils'
+import { jointString, unique } from '../../utils'
 import ConfirmModal from '../../components/ConfirmModal'
+import CustomLoading from '../../components/CustomLoading'
+import { uploadFile } from '../../utils/file'
 
 const screenHeight = Dimensions.get('window').height
 export default function UploadScreen() {
@@ -18,13 +20,13 @@ export default function UploadScreen() {
   const [content, setContent] = useState('')
   const [pickImage, setPickImage] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
   const onSuccess = (data: any) => {
     let newData: any = unique([...selectedImage, ...data], 'id')
     if (newData.length >= 8) {
       Alert.alert('最多只能上传8张图片')
       return
     }
-
     setPickImage(false)
   }
 
@@ -38,6 +40,26 @@ export default function UploadScreen() {
   const deleteSelectImage = (item: any) => {
     let temp = selectedImage.filter((i: any) => i.id !== item.id)
     setSelectedImage(temp)
+  }
+
+  const publishNote = () => {
+    uploadFile(selectedImage).then((res: any) => {
+      console.log(res.data)
+      if (res.code === 200) {
+        let images = jointString(res.data.fileUrl)
+        let data = {
+          content,
+          title,
+          isPublic: 1,
+          images
+        }
+        Alert.alert('发布成功')
+      } else {
+        Alert.alert('发布失败')
+      }
+      setLoading(!loading)
+    })
+    setIsModalOpen(false)
   }
 
   return (
@@ -118,11 +140,10 @@ export default function UploadScreen() {
         isOpen={isModalOpen}
         content="是否确认发布？"
         onClose={setIsModalOpen.bind(null, false)}
-        onConfirm={() => {
-          console.log('测试')
-        }}
+        onConfirm={publishNote}
         title="发布笔记"
       />
+      <CustomLoading loading={loading} title="发布笔记中" />
     </>
   )
 }
