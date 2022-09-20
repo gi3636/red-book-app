@@ -42,6 +42,6 @@ export function jointString(arr: Array<String>) {
   arr.map((item) => {
     str += item + ','
   })
-  str.substring(0, str.length - 1)
+  str = str.substring(0, str.length - 1)
   return str
 }

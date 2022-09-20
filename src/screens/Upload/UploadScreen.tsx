@@ -11,7 +11,9 @@ import CustomTextArea from '../../components/CustomTextArea'
 import { jointString, unique } from '../../utils'
 import ConfirmModal from '../../components/ConfirmModal'
 import CustomLoading from '../../components/CustomLoading'
-import { uploadFile } from '../../utils/file'
+import { uploadFile, uploadFiles } from '../../utils/file'
+import { noteService } from '../../api'
+import CustomSwitch from '../../components/CustomSwitch'
 
 const screenHeight = Dimensions.get('window').height
 export default function UploadScreen() {
@@ -21,12 +23,14 @@ export default function UploadScreen() {
   const [pickImage, setPickImage] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [isPublic, setIsPublic] = useState(true)
   const onSuccess = (data: any) => {
     let newData: any = unique([...selectedImage, ...data], 'id')
     if (newData.length >= 8) {
       Alert.alert('最多只能上传8张图片')
       return
     }
+    setSelectedImage(newData)
     setPickImage(false)
   }
 
@@ -42,24 +46,45 @@ export default function UploadScreen() {
     setSelectedImage(temp)
   }
 
-  const publishNote = () => {
-    uploadFile(selectedImage).then((res: any) => {
-      console.log(res.data)
+  const clearData = () => {
+    setSelectedImage([])
+    setTitle('')
+    setContent('')
+  }
+
+  const publishNote = async () => {
+    if (selectedImage.length < 0) {
+      Alert.alert('请至少上传一张图片')
+      return
+    }
+    if (title === '' || content === '') {
+      Alert.alert('请填写标题和内容')
+      return
+    }
+    setIsModalOpen(false)
+    setLoading(true)
+    try {
+      let res = await uploadFiles(selectedImage)
       if (res.code === 200) {
         let images = jointString(res.data.fileUrl)
         let data = {
           content,
           title,
-          isPublic: 1,
+          isPublic: isPublic ? 1 : 0,
           images
         }
-        Alert.alert('发布成功')
-      } else {
-        Alert.alert('发布失败')
+        let result = await noteService.add(data)
+        if (result.code === 200) {
+          clearData()
+          Alert.alert('发布成功')
+        }
       }
-      setLoading(!loading)
-    })
-    setIsModalOpen(false)
+    } catch (e) {
+      Alert.alert('发布失败')
+      console.log(e)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -95,6 +120,9 @@ export default function UploadScreen() {
                     style={{ height: 120 }}
                     placeholder="说说此刻心情"
                   />
+                </View>
+                <View marginBottom={5}>
+                  <CustomSwitch title="是否公开" setChecked={setIsPublic} checked={isPublic} />
                 </View>
                 <View marginTop={-2} marginBottom={5}>
                   <Text style={styles.title}>添加图片</Text>
@@ -152,12 +180,12 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
     backgroundColor: colors.primary,
-    height: screenHeight
+    height: screenHeight - 20
   },
   header: {
     height: 60,
     paddingHorizontal: 10,
-    backgroundColor: colors.primary,
+    backgroundColor: 'transparent',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
