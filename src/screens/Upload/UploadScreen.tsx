@@ -66,12 +66,11 @@ export default function UploadScreen() {
     try {
       let res = await uploadFiles(selectedImage)
       if (res.code === 200) {
-        let images = jointString(res.data.fileUrl)
         let data = {
           content,
           title,
           isPublic: isPublic ? 1 : 0,
-          images
+          images: res.data.fileUrl
         }
         let result = await noteService.add(data)
         if (result.code === 200) {
