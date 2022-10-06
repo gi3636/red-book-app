@@ -14,7 +14,6 @@ import CustomLoading from '../../components/CustomLoading'
 import { uploadFile, uploadFiles } from '../../utils/file'
 import { noteService } from '../../api'
 import CustomSwitch from '../../components/CustomSwitch'
-
 const screenHeight = Dimensions.get('window').height
 export default function UploadScreen() {
   const [selectedImage, setSelectedImage] = useState([])
@@ -108,7 +107,7 @@ export default function UploadScreen() {
                     value={title}
                     onChangeText={setTitle}
                     label="标题"
-                    containerStyle={{ paddingHorizontal: 2 }}
+                    containerStyle={{ paddingHorizontal: 2, borderRadius: 10 }}
                   />
                 </View>
                 <View marginBottom={5}>
@@ -140,21 +139,23 @@ export default function UploadScreen() {
                     ))}
                     <Button
                       onPress={openImagePicker}
-                      buttonStyle={styles.pickImageBtn}
+                      containerStyle={styles.pickImageBtn}
+                      buttonStyle={{ width: 80, height: 80 }}
+                      color={colors.placeholder}
                       icon={{
                         name: 'plus',
                         type: 'antdesign',
                         size: 40,
                         color: colors.white
                       }}
-                      containerStyle={{}}
                     />
                   </View>
                 </View>
 
                 <Button
+                  containerStyle={styles.uploadBtn}
                   onPress={() => setIsModalOpen(true)}
-                  buttonStyle={styles.uploadBtn}
+                  color={colors.danger}
                   titleStyle={{ fontWeight: 'bold', fontSize: 16, color: colors.white }}>
                   发布笔记
                 </Button>
@@ -207,11 +208,6 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   pickImageBtn: {
-    backgroundColor: colors.placeholder,
-    borderColor: 'transparent',
-    borderWidth: 0,
-    height: 80,
-    width: 80,
     borderRadius: 10,
     marginTop: 10
   },
@@ -221,10 +217,8 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   uploadBtn: {
-    overflow: 'hidden',
     marginTop: 20,
     borderRadius: 20,
-    backgroundColor: colors.danger,
-    color: colors.black
+    backgroundColor: colors.danger
   }
 })

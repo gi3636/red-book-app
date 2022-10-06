@@ -28,7 +28,9 @@ function ConfirmModal({ isOpen, onConfirm, onClose, title, cancelText, confirmTe
         </View>
         <View style={styles.footer}>
           <Button
-            buttonStyle={styles.cancelBtn}
+            containerStyle={styles.cancelBtn}
+            buttonStyle={{ paddingHorizontal: 30 }}
+            color={'transparent'}
             titleStyle={{ color: colors.placeholder, fontWeight: 'bold' }}
             onPress={onClose}>
             {cancelText || '取消'}
@@ -72,7 +74,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.danger
   },
   cancelBtn: {
-    paddingHorizontal: 30,
     borderWidth: 1,
     overflow: 'hidden',
     borderColor: colors.placeholder,

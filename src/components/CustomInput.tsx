@@ -36,7 +36,7 @@ function CustomInput({
         onChangeText={onChangeText}
         value={value}
         secureTextEntry={secureTextEntry}
-        style={style}
+        style={{ marginRight: 10, ...style }}
         {...props}
       />
     </View>
