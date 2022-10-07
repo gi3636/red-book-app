@@ -31,7 +31,9 @@ enum AppEmitterType {
   newSystemNotice,
   appendLocalMsg,
   updateApp,
-  UserStatus
+  UserStatus,
+  focusCommentInput,
+  addNoteComment
 }
 
 class AppEmmiter extends Emmiter {

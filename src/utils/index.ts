@@ -4,8 +4,8 @@ export function firstLetterInCapital(str) {
   return str.replace(str[0], str[0].toUpperCase())
 }
 
-export function convertTime(time) {
-  return moment(+time).format('YYYY-MM-DD')
+export function convertTime(time, format = 'YYYY-MM-DD') {
+  return moment(+time).format(format)
 }
 
 export function throttle(fn, delay) {

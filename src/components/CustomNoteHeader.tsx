@@ -12,11 +12,11 @@ function CustomNoteHeader(props) {
         size={40}
         rounded
         source={{
-          uri: `https://avatars1.githubusercontent.com/u/${parseInt(String(item.avatar * Math.random()))}`
+          uri: item.avatar
         }}
       />
       <Text fontSize="md" color="white" paddingLeft={2}>
-        {item.title}
+        {item.nickname}
       </Text>
     </>
   )
