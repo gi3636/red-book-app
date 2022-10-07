@@ -1,6 +1,5 @@
 import { api } from './api'
 import { getStorageUser } from '../utils/storage'
-import { useToast } from 'native-base'
 
 export async function update(param) {
   let user = await getStorageUser()

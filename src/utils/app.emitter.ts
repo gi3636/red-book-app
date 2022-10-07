@@ -3,6 +3,7 @@
 import { Emmiter } from './E'
 
 enum AppEmitterType {
+  loading,
   editData,
   openDrawer,
   voiceStop,
@@ -30,7 +31,9 @@ enum AppEmitterType {
   newSystemNotice,
   appendLocalMsg,
   updateApp,
-  UserStatus
+  UserStatus,
+  focusCommentInput,
+  addNoteComment
 }
 
 class AppEmmiter extends Emmiter {

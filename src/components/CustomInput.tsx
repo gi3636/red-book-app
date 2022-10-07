@@ -3,6 +3,7 @@ import { Icon, Input, View } from 'native-base'
 import { FontAwesome } from '@expo/vector-icons'
 import { StyleProp, ViewStyle } from 'react-native'
 import { IInputProps } from 'native-base/src/components/primitives/Input/types'
+import colors from '../styles/colors'
 
 interface CustomInputProps extends IInputProps {
   value: string
@@ -27,16 +28,18 @@ function CustomInput({
   return (
     <View style={containerStyle} key={label}>
       <Input
+        size={22}
         _light={{
           color: 'black',
           backgroundColor: 'white'
         }}
+        focusOutlineColor={colors.black}
         variant="filled"
         placeholder={placeholder || `请输入${label}`}
         onChangeText={onChangeText}
         value={value}
         secureTextEntry={secureTextEntry}
-        style={style}
+        style={{ marginRight: 10, height: 43, ...style }}
         {...props}
       />
     </View>

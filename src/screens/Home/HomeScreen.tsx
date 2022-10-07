@@ -5,10 +5,10 @@ import HomeTopTabNavigator from '../../navigation/HomeTopTabNavigator'
 
 const HomeScreen = () => {
   return (
-    <SafeAreaView style={styles.container}>
+    <>
       <HomeTopTabNavigator />
       <StatusBar backgroundColor={colors.primary} />
-    </SafeAreaView>
+    </>
   )
 }
 

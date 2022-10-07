@@ -5,16 +5,17 @@ import { StyleSheet, Text } from 'react-native'
 import colors from '../../styles/colors'
 import { AntDesign } from '@expo/vector-icons'
 import TouchableScale from 'react-native-touchable-scale'
+import { appEmitter } from '../../utils/app.emitter'
 
 function CommentItem({ item, children }: { item: any; children?: any }) {
   return (
-    <View style={styles.commentItem} w="100%" flexDirection="row">
+    <View style={styles.commentItem} w="100%" flexDirection="row" key={item.id}>
       <View paddingRight={2}>
         <Avatar
           size={35}
           rounded
           source={{
-            uri: `https://avatars1.githubusercontent.com/u/${parseInt(String(item.avatar * Math.random()))}`
+            uri: `https://avatars1.githubusercontent.com/u/${parseInt(String(item.userId * Math.random()))}`
           }}
         />
       </View>
@@ -25,7 +26,7 @@ function CommentItem({ item, children }: { item: any; children?: any }) {
           tension={100}
           activeScale={0.95}
           onPress={() => {
-            console.log('测试01')
+            appEmitter.fire(appEmitter.type.focusCommentInput, { userId: item.userId, parentId: item.id })
           }}>
           <Text
             style={{ color: colors.white, fontWeight: 'bold' }}
@@ -34,9 +35,7 @@ function CommentItem({ item, children }: { item: any; children?: any }) {
             }}>
             Martin
           </Text>
-          <Text style={{ color: colors.white }}>
-            这是一条评论的内容里面有很多多多多多多多多多多的内容里面有很多多多多多多多多多多多多多多多多多多多多多多多多
-          </Text>
+          <Text style={{ color: colors.white }}>{item.content}</Text>
           <View />
           {children}
         </TouchableScale>

@@ -1,23 +1,37 @@
 import { MaterialTopTabBar } from '@react-navigation/material-top-tabs'
 import React, { Component } from 'react'
-import { TouchableOpacity, View, Text, Animated } from 'react-native'
+import { TouchableOpacity, View, Text, Animated, SafeAreaView } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import colors from '../styles/colors'
+import { AntDesign } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
+import { ImageBackground, Platform } from 'react-native'
+function CustomTabBar(props) {
+  const navigation = useNavigation()
 
-class CustomTabBar extends Component {
-  render() {
-    return (
+  return (
+    <>
+      <MaterialTopTabBar {...props} />
       <View
         style={{
-          position: 'relative'
+          position: 'absolute',
+          top: Platform.OS === 'ios' ? 50 : 40,
+          right: 20,
+          zIndex: 2
         }}>
-        <MaterialTopTabBar {...this.props} />
-        {/*<TouchableOpacity style={{ position: 'absolute', right: 0, top: 0 }}>*/}
-        {/*  <Ionicons name={'ios-search-outline'} size={24} color={colors.white} />*/}
-        {/*</TouchableOpacity>*/}
+        <TouchableOpacity>
+          <AntDesign
+            name="search1"
+            size={25}
+            color={colors.white_smoke}
+            onPress={() => {
+              navigation.navigate('Search')
+            }}
+          />
+        </TouchableOpacity>
       </View>
-    )
-  }
+    </>
+  )
 }
 
 export default CustomTabBar

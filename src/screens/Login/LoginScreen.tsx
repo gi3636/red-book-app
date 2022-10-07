@@ -56,7 +56,7 @@ export default function LoginScreen({ navigation }) {
   return (
     <LinearGradient colors={[colors.primary, colors.secondary]} style={styles.background}>
       <ImageBackground style={{ flex: 1 }} source={require('../../assets/images/bumble-bg.png')} resizeMode="contain">
-        <View style={styles.container}>
+        <View style={styles.imageContainer}>
           <View style={{ width: '100%', marginVertical: 50 }}>
             <Center>
               <Logo />
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%'
   },
-  container: {
+  imageContainer: {
     flex: 1,
     padding: 20,
     justifyContent: 'center',

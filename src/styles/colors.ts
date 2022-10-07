@@ -23,5 +23,6 @@ export default {
   light: '#f5f5f5',
   white: '#ffffff',
   white200: '#948e8e',
-  white_smoke: '#f5f5f5'
+  white_smoke: '#f5f5f5',
+  white_smoke_200: '#f1e9e9'
 }

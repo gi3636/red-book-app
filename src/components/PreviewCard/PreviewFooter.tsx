@@ -10,12 +10,12 @@ function PreviewFooter({ item }) {
           bg="coolGray.200"
           size="xs"
           source={{
-            uri: `https://avatars1.githubusercontent.com/u/${item.avatar}`
+            uri: item.avatar
           }}>
           AJ
         </Avatar>
         <Text color={colors.main_font} w="100" fontWeight="400" fontSize="12" pl="1" ellipsizeMode="tail">
-          {item.username}
+          {item.nickname}
         </Text>
       </HStack>
       {item.like ? (

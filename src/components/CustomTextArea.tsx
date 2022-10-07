@@ -56,6 +56,7 @@ const CustomTextArea: React.FC<IRNTextAreaProps> = ({
   return (
     <View style={[styles.container, style]}>
       <TextInput
+        selectionColor={colors.black}
         value={value}
         multiline
         {...rest}

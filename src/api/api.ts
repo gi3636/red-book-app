@@ -4,13 +4,17 @@ import { getStorageToken } from '../utils/storage'
 
 export let api
 
-const api_url = 'http://192.168.254.104:8080/'
+const api_url = 'http://192.168.0.178:8080/'
 api = axios.create({
   baseURL: api_url
   //headers: {  },
 })
 api.defaults.timeout = 5000
 api.interceptors.request.use(async function (config) {
+  console.log('请求链接：', config.url)
+  console.log('请求参数：', config.data)
+  // console.log('请求：', config)
+
   let token = await getStorageToken()
   if (token) {
     config.headers.token = token

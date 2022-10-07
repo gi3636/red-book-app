@@ -1,17 +1,19 @@
 import colors from '../../styles/colors'
-import React, { useEffect, useState } from 'react'
-import { AlertDialog, Text, View } from 'native-base'
+import React, { useState } from 'react'
+import { Spinner, Text, View } from 'native-base'
 import { Button, Image } from '@rneui/base'
 import { Alert, Dimensions, ImageBackground, ScrollView, StyleSheet } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
 import CustomImagePicker from '../../components/CustomImagePicker'
-import { appEmitter } from '../../utils/app.emitter'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CustomInput from '../../components/CustomInput'
 import CustomTextArea from '../../components/CustomTextArea'
-import { unique } from '../../utils'
+import { jointString, unique } from '../../utils'
 import ConfirmModal from '../../components/ConfirmModal'
-
+import CustomLoading from '../../components/CustomLoading'
+import { uploadFile, uploadFiles } from '../../utils/file'
+import { noteService } from '../../api'
+import CustomSwitch from '../../components/CustomSwitch'
 const screenHeight = Dimensions.get('window').height
 export default function UploadScreen() {
   const [selectedImage, setSelectedImage] = useState([])
@@ -19,6 +21,8 @@ export default function UploadScreen() {
   const [content, setContent] = useState('')
   const [pickImage, setPickImage] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [isPublic, setIsPublic] = useState(true)
   const onSuccess = (data: any) => {
     let newData: any = unique([...selectedImage, ...data], 'id')
     if (newData.length >= 8) {
@@ -41,11 +45,45 @@ export default function UploadScreen() {
     setSelectedImage(temp)
   }
 
-  useEffect(() => {
-    appEmitter.on('upload', () => {
-      console.log('upload')
-    })
-  }, [])
+  const clearData = () => {
+    setSelectedImage([])
+    setTitle('')
+    setContent('')
+  }
+
+  const publishNote = async () => {
+    if (selectedImage.length < 0) {
+      Alert.alert('请至少上传一张图片')
+      return
+    }
+    if (title === '' || content === '') {
+      Alert.alert('请填写标题和内容')
+      return
+    }
+    setIsModalOpen(false)
+    setLoading(true)
+    try {
+      let res = await uploadFiles(selectedImage)
+      if (res.code === 200) {
+        let data = {
+          content,
+          title,
+          isPublic: isPublic ? 1 : 0,
+          images: res.data.fileUrl
+        }
+        let result = await noteService.add(data)
+        if (result.code === 200) {
+          clearData()
+          Alert.alert('发布成功')
+        }
+      }
+    } catch (e) {
+      Alert.alert('发布失败')
+      console.log(e)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <>
@@ -69,7 +107,7 @@ export default function UploadScreen() {
                     value={title}
                     onChangeText={setTitle}
                     label="标题"
-                    containerStyle={{ paddingHorizontal: 2 }}
+                    containerStyle={{ paddingHorizontal: 2, borderRadius: 10 }}
                   />
                 </View>
                 <View marginBottom={5}>
@@ -80,6 +118,9 @@ export default function UploadScreen() {
                     style={{ height: 120 }}
                     placeholder="说说此刻心情"
                   />
+                </View>
+                <View marginBottom={5}>
+                  <CustomSwitch title="是否公开" setChecked={setIsPublic} checked={isPublic} />
                 </View>
                 <View marginTop={-2} marginBottom={5}>
                   <Text style={styles.title}>添加图片</Text>
@@ -98,21 +139,23 @@ export default function UploadScreen() {
                     ))}
                     <Button
                       onPress={openImagePicker}
-                      buttonStyle={styles.pickImageBtn}
+                      containerStyle={styles.pickImageBtn}
+                      buttonStyle={{ width: 80, height: 80 }}
+                      color={colors.placeholder}
                       icon={{
                         name: 'plus',
                         type: 'antdesign',
                         size: 40,
                         color: colors.white
                       }}
-                      containerStyle={{}}
                     />
                   </View>
                 </View>
 
                 <Button
+                  containerStyle={styles.uploadBtn}
                   onPress={() => setIsModalOpen(true)}
-                  buttonStyle={styles.uploadBtn}
+                  color={colors.danger}
                   titleStyle={{ fontWeight: 'bold', fontSize: 16, color: colors.white }}>
                   发布笔记
                 </Button>
@@ -123,12 +166,12 @@ export default function UploadScreen() {
       )}
       <ConfirmModal
         isOpen={isModalOpen}
+        content="是否确认发布？"
         onClose={setIsModalOpen.bind(null, false)}
-        onConfirm={() => {
-          console.log('测试')
-        }}
+        onConfirm={publishNote}
         title="发布笔记"
       />
+      <CustomLoading loading={loading} title="发布笔记中" />
     </>
   )
 }
@@ -137,12 +180,12 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
     backgroundColor: colors.primary,
-    height: screenHeight
+    height: screenHeight - 20
   },
   header: {
     height: 60,
     paddingHorizontal: 10,
-    backgroundColor: colors.primary,
+    backgroundColor: 'transparent',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
@@ -165,11 +208,6 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   pickImageBtn: {
-    backgroundColor: colors.placeholder,
-    borderColor: 'transparent',
-    borderWidth: 0,
-    height: 80,
-    width: 80,
     borderRadius: 10,
     marginTop: 10
   },
@@ -179,10 +217,8 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   uploadBtn: {
-    overflow: 'hidden',
     marginTop: 20,
     borderRadius: 20,
-    backgroundColor: colors.danger,
-    color: colors.black
+    backgroundColor: colors.danger
   }
 })
