@@ -8,26 +8,31 @@ import { api } from '../../api/api'
 import PreviewCard from '../../components/PreviewCard/PreviewCard'
 import TouchableScale from 'react-native-touchable-scale'
 import { throttle } from '../../utils'
+import { noteService } from '../../api'
+import { useSelector } from 'react-redux'
 
 const screenHeight = Dimensions.get('window').height
 function RecommendScreen({ navigation }) {
   // const navigation = useNavigation()
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Array<any>>([])
+  const mySelf = useSelector((state: any) => {
+    return state.user
+  })
   const refreshData = async () => {
     setLoading(true)
     if (!loading) {
       console.log('刷新数据')
-      let res = await api.get('https://mock.apifox.cn/m1/1170334-0-default/recomment')
-      setData(res.data)
+      let res = await noteService.list({ userId: mySelf.id })
+      setData(res.data.list)
     }
     setLoading(false)
   }
   const loadingData = throttle(async () => {
     console.log('加载数据')
-    let res = await api.get('https://mock.apifox.cn/m1/1170334-0-default/recomment')
+    let res = await noteService.list({ userId: mySelf.id })
     //@ts-ignore
-    setData([...data, ...res.data])
+    setData([...data, ...res.data.list])
     console.log('长度', data.length)
   }, 2000)
 

@@ -5,33 +5,32 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import colors from '../styles/colors'
 import { AntDesign } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
-
+import { ImageBackground, Platform } from 'react-native'
 function CustomTabBar(props) {
   const navigation = useNavigation()
 
   return (
-    <View
-      style={{
-        position: 'relative'
-      }}>
+    <>
       <MaterialTopTabBar {...props} />
       <View
         style={{
           position: 'absolute',
-          top: 44,
+          top: Platform.OS === 'ios' ? 50 : 40,
           right: 20,
           zIndex: 2
         }}>
-        <AntDesign
-          name="search1"
-          size={25}
-          color={colors.white_smoke}
-          onPress={() => {
-            navigation.navigate('Search')
-          }}
-        />
+        <TouchableOpacity>
+          <AntDesign
+            name="search1"
+            size={25}
+            color={colors.white_smoke}
+            onPress={() => {
+              navigation.navigate('Search')
+            }}
+          />
+        </TouchableOpacity>
       </View>
-    </View>
+    </>
   )
 }
 

@@ -4,7 +4,7 @@ import { getStorageToken } from '../utils/storage'
 
 export let api
 
-const api_url = 'http://192.168.254.104:8080/'
+const api_url = 'http://192.168.0.178:8080/'
 api = axios.create({
   baseURL: api_url
   //headers: {  },

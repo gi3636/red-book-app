@@ -12,18 +12,18 @@ const screenWidth = Dimensions.get('window').width
 const screenHeight = Dimensions.get('window').height
 export default function ProfileScreen({ navigation }) {
   return (
-    <SafeAreaView>
-      <ProfileHeader />
-      <View style={styles.container}>
-        <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
-          colors={[colors.primary, colors.secondary]}
-          style={styles.linearGradient}>
+    <LinearGradient
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
+      colors={[colors.primary, colors.secondary]}
+      style={styles.linearGradient}>
+      <SafeAreaView>
+        <ProfileHeader />
+        <View style={styles.container}>
           <ProfileBody navigation={navigation} />
-        </LinearGradient>
-      </View>
-    </SafeAreaView>
+        </View>
+      </SafeAreaView>
+    </LinearGradient>
   )
 }
 

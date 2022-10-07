@@ -6,6 +6,7 @@ import RecommendScreen from '../screens/Recommed/RecommendScreen'
 import NearbyScreen from '../screens/Nearby/NearbyScreen'
 import FollowScreen from '../screens/Follow/FollowScreen'
 import colors from '../styles/colors'
+import { Platform } from 'react-native'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -38,7 +39,7 @@ export default function HomeTopTabNavigator() {
         },
         tabBarStyle: {
           position: 'absolute',
-          paddingTop: insets.top,
+          paddingTop: Platform.OS === 'ios' ? insets.top - 10 : insets.top,
           alignSelf: 'center',
           width: '60%',
           backgroundColor: 'transparent',
