@@ -12,6 +12,7 @@ function ProfileDetail(props) {
   const myself = useSelector((state: any) => {
     return state.user
   })
+  console.log('user', myself)
 
   return (
     <>

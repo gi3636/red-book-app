@@ -1,31 +1,20 @@
 import React from 'react'
-import { View } from 'native-base'
+import { View, Text } from 'native-base'
 import { Button } from '@rneui/base'
 import colors from '../../../styles/colors'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native'
 import { appEmitter } from '../../../utils/app.emitter'
+import { FontAwesome } from '@expo/vector-icons'
 function EditBtn({ navigation }) {
   return (
     <View style={styles.editBtnContainer}>
-      <Button
-        icon={{
-          name: 'edit',
-          type: 'font-awesome',
-          size: 25,
-          color: colors.medium
-        }}
-        style={styles.editBtn}
-        titleStyle={{
-          color: colors.main_font
-        }}
-        buttonStyle={{
-          backgroundColor: 'white',
-          borderRadius: 5
-        }}
+      <TouchableOpacity
         onPress={() => {
           navigation.push('Edit')
         }}
-      />
+        activeOpacity={0.5}>
+        <FontAwesome name="edit" size={25} color={colors.medium} />
+      </TouchableOpacity>
     </View>
   )
 }
@@ -34,10 +23,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 15
-  },
-  editBtn: {
-    width: '20%',
-    borderRadius: 20
   }
 })
 

@@ -10,11 +10,10 @@ import { useNavigation } from '@react-navigation/native'
 import NoteScreen from '../screens/Note/NoteScreen'
 import CustomNoteHeader from '../components/CustomNoteHeader'
 import colors from '../styles/colors'
-import { useRoute } from '@react-navigation/native'
 import { AntDesign } from '@expo/vector-icons'
-import CustomImagePicker from '../components/CustomImagePicker'
 import SearchScreen from '../screens/Search/SearchScreen'
 import CustomSearchHeader from '../screens/Search/Component/CustomSearchHeader'
+
 /**
  * A root stack navigator is often used for displaying modals on top of all other content.
  * https://reactnavigation.org/docs/modal

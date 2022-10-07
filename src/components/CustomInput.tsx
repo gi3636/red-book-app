@@ -27,6 +27,7 @@ function CustomInput({
   return (
     <View style={containerStyle} key={label}>
       <Input
+        size={22}
         _light={{
           color: 'black',
           backgroundColor: 'white'
@@ -36,7 +37,7 @@ function CustomInput({
         onChangeText={onChangeText}
         value={value}
         secureTextEntry={secureTextEntry}
-        style={{ marginRight: 10, ...style }}
+        style={{ marginRight: 10, height: 43, ...style }}
         {...props}
       />
     </View>
