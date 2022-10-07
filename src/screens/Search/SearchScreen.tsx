@@ -1,8 +1,7 @@
 import React from 'react'
-import { View, Text, Box, Button, HStack } from 'native-base'
+import { Button, HStack, Text, View } from 'native-base'
 import { StyleSheet } from 'react-native'
 import colors from '../../styles/colors'
-import TouchableScale from 'react-native-touchable-scale'
 import { Ionicons } from '@expo/vector-icons'
 
 function SearchScreen(props) {
