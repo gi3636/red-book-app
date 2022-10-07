@@ -10,7 +10,7 @@ function PreviewImage({ item }) {
       <AspectRatio w="100%" ratio={item.like ? 3 / 4 : 16 / 9}>
         <Image
           source={{
-            uri: item.images[0]
+            uri: item.imageList[0]
           }}
           alt="image"
         />
