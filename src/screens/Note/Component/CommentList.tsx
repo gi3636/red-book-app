@@ -21,7 +21,11 @@ function CommentList({ item }) {
     commentService.list({ noteId: item.id }).then((res) => {
       console.log(res)
       setCommentList(res.data.list)
-      setTotal(+res.data.total)
+      let commentTotal = +res.data.total
+      res.data.list.map((comment: any) => {
+        commentTotal += comment.children.length
+      })
+      setTotal(+commentTotal)
     })
   }
 

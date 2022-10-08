@@ -12,7 +12,6 @@ function BottomInputBar({ item }) {
   const [toUserId, setToUserId] = React.useState(null)
   const [parentId, setParentId] = React.useState(null)
   const inputRef = React.useRef(null) as any
-  console.log('item', item)
   const sendComment = async () => {
     let res = await commentService.add({
       noteId: item.id,

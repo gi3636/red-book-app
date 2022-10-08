@@ -34,7 +34,7 @@ export default function LoginScreen({ navigation }) {
     setLoading(true)
     try {
       let res = isLogin ? await authService.login(data) : await authService.register(data)
-      if (res.code === 200) {
+      if (+res.code === 200) {
         if (isLogin) {
           saveStorageToken(res.data.token)
           dispatch(updateUser(res.data))

@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 40,
     backgroundColor: colors.white,
+    paddingVertical: 8,
     paddingHorizontal: 15
   },
   title: {
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     color: colors.medium
   },
   switch: {
-    transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }]
+    transform: [{ scaleX: 1.0 }, { scaleY: 1.0 }]
   }
 })
 
