@@ -13,7 +13,7 @@ export default {
   blackOpacityDarker: 'rgba(0,0,0, 0.7)',
   purple: '#6c45e2',
   purple_secondary: '#F4F0FF',
-  yellow: '#f6ca70',
+  yellow: '#f6c87c',
   yellow_secondary: '#fffaee',
   red: '#ff3e30',
   red_secondary: '#fef1ef',

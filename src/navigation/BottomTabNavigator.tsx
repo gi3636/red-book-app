@@ -13,6 +13,8 @@ import UploadScreen from '../screens/Upload/UploadScreen'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import { View } from 'native-base'
 import { ImageBackground, Platform } from 'react-native'
+import TestScreen from '../screens/TestScreen'
+import TestAnimatedScreen from '../screens/TestAnimatedScreen'
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
