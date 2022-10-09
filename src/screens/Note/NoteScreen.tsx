@@ -9,6 +9,7 @@ import { Entypo } from '@expo/vector-icons'
 import { convertTime } from '../../utils'
 import BottomInputBar from './Component/BottomInputBar'
 import CommentList from './Component/CommentList'
+import DislikeBtn from './Component/DislikeBtn'
 
 const screenHeight = Dimensions.get('window').height
 const screenWidth = Dimensions.get('window').width
@@ -31,20 +32,7 @@ function NoteScreen(props) {
           <Text style={styles.content}>{item.content}</Text>
           <HStack justifyContent="space-between" alignItems="center">
             <Text style={styles.date}>{convertTime(item.createdTime, 'YYYY-MM-DD  HH:mm')}</Text>
-            <Button
-              containerStyle={{
-                borderRadius: 20,
-                borderColor: colors.white,
-                borderWidth: 1
-              }}
-              titleStyle={{ fontSize: 11 }}
-              buttonStyle={{
-                padding: 3,
-                backgroundColor: colors.primary
-              }}>
-              不喜欢
-              <Entypo name="emoji-sad" size={14} color="white" style={{ paddingLeft: 4 }} />
-            </Button>
+            <DislikeBtn />
           </HStack>
         </View>
         <CommentList item={item} />
@@ -79,14 +67,6 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 12,
     color: colors.white_smoke_200
-  },
-  commentContainer: {
-    padding: 10,
-    width: '100%',
-    height: 400
-  },
-  commentList: {
-    paddingTop: 10
   }
 })
 export default NoteScreen

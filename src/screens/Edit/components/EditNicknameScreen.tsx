@@ -15,7 +15,7 @@ function EditNicknameScreen({ navigation, route }) {
     appEmitter.singleton(appEmitter.type.editData, async () => {
       try {
         let res = await userService.update({ nickname })
-        if (res.code === 200) {
+        if (+res.code === 200) {
           toast.show({
             title: '修改成功',
             duration: 2000

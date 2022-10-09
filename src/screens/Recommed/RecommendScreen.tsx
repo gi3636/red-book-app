@@ -23,14 +23,14 @@ function RecommendScreen({ navigation }) {
     setLoading(true)
     if (!loading) {
       console.log('刷新数据')
-      let res = await noteService.list({ userId: mySelf.id })
+      let res = await noteService.getRecommendNoteList()
       setData(res.data.list)
     }
     setLoading(false)
   }
   const loadingData = throttle(async () => {
     console.log('加载数据')
-    let res = await noteService.list({ userId: mySelf.id })
+    let res = await noteService.getRecommendNoteList()
     //@ts-ignore
     setData([...data, ...res.data.list])
     console.log('长度', data.length)
@@ -50,12 +50,12 @@ function RecommendScreen({ navigation }) {
         renderItem={({ item }) => (
           <TouchableScale
             key={item.id}
-            friction={90}
+            friction={100}
             tension={100}
-            activeScale={0.95}
+            activeScale={0.98}
             onPress={() => {
+              console.log('note', item)
               navigation.navigate('Note', item)
-              console.log('item', item)
             }}>
             <PreviewCard item={item} />
           </TouchableScale>
@@ -81,11 +81,5 @@ function RecommendScreen({ navigation }) {
     //</LinearGradient>
   )
 }
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    width: '100%'
-  }
-})
 
 export default RecommendScreen

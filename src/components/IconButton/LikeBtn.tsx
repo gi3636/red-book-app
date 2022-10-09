@@ -4,7 +4,7 @@ import { AntDesign } from '@expo/vector-icons'
 import * as Animatable from 'react-native-animatable'
 
 type Props = {
-  onPress: () => void
+  onPress: () => Promise<void>
   value: boolean
   size?: number
 }
@@ -12,9 +12,16 @@ type Props = {
 function LikeBtn({ onPress, value, size = 22 }: Props) {
   const likeRef = React.useRef(null)
   const pressLike = () => {
-    //@ts-ignore
-    likeRef.current.bounceIn()
-    onPress && onPress()
+    onPress &&
+      onPress()
+        .then(() => {
+          console.log('测试')
+          //@ts-ignore
+          likeRef.current.bounceIn()
+        })
+        .catch((err) => {
+          console.log('err', err)
+        })
   }
   return (
     <Pressable onPress={pressLike}>

@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react'
-import { HStack, Input, Pressable, View } from 'native-base'
+import { HStack, Input, View } from 'native-base'
 import colors from '../../../styles/colors'
-import { AntDesign, Feather, FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { commentService } from '../../../api'
+import { commentService, noteService } from '../../../api'
 import { appEmitter } from '../../../utils/app.emitter'
-import * as Animatable from 'react-native-animatable'
-import { CustomAnimated } from '../../../constants/CustomAnimated'
 import LikeBtn from '../../../components/IconButton/LikeBtn'
 import FavoriteBtn from '../../../components/IconButton/FavoriteBtn'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
@@ -19,10 +17,10 @@ function BottomInputBar({ item }) {
   const [isLike, setIsLike] = React.useState(false)
   const [isFavorite, setIsFavorite] = React.useState(false)
   const inputRef = React.useRef(null) as any
-  const inputContainerRef = React.useRef(null) as any
-  const likeRef = React.useRef(null) as any
   const inputWidth = useSharedValue('45%')
   const viewOpacity = useSharedValue(0)
+  let lock = false
+
   const sendComment = async () => {
     let res = await commentService.add({
       noteId: item.id,
@@ -30,7 +28,6 @@ function BottomInputBar({ item }) {
       toUserId,
       parentId
     })
-    console.log('res', res)
     if (+res.code === 200) {
       handleBlur()
       inputRef && inputRef?.current?.blur()
@@ -51,9 +48,19 @@ function BottomInputBar({ item }) {
     }
   })
 
-  const handleLike = () => {
-    //likeRef?.current?.animate(CustomAnimated.bounce, 500)
-    setIsLike(!isLike)
+  const handleLike = async () => {
+    if (lock) return Promise.reject('点击太快了')
+    lock = true
+    let res = isLike ? await noteService.unlike(item.id) : await noteService.like(item.id)
+    if (+res.code === 200) {
+      lock = false
+      if (isLike) {
+        item.likeCount -= 1
+      } else {
+        item.likeCount += 1
+      }
+      setIsLike(!isLike)
+    }
   }
 
   const handleBlur = () => {
@@ -103,15 +110,15 @@ function BottomInputBar({ item }) {
           <>
             <HStack alignItems="center" justifyContent="space-between">
               <LikeBtn onPress={handleLike} value={isLike} />
-              <Text style={styles.countText}>20</Text>
+              <Text style={styles.countText}>{item.likeCount}</Text>
             </HStack>
             <HStack alignItems="center" justifyContent="space-between">
               <FavoriteBtn onPress={handleLike} value={isLike} />
-              <Text style={styles.countText}>20</Text>
+              <Text style={styles.countText}>{item.followCount}</Text>
             </HStack>
             <HStack alignItems="center" justifyContent="space-between">
               <Ionicons name="chatbox-ellipses-outline" size={22} color="black" />
-              <Text style={styles.countText}>20</Text>
+              <Text style={styles.countText}>{item.likeCount}</Text>
             </HStack>
           </>
         ) : (

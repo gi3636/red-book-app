@@ -15,7 +15,7 @@ function EditMobileScreen({ route, navigation }) {
     appEmitter.singleton(appEmitter.type.editData, async () => {
       try {
         let res = await userService.update({ nickname: mobile })
-        if (res.code === 200) {
+        if (+res.code === 200) {
           toast.show({
             title: '修改成功',
             duration: 2000

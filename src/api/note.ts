@@ -13,3 +13,15 @@ export function list(param) {
     ...param
   })
 }
+
+export function getRecommendNoteList() {
+  return api.get('api/note/recommend')
+}
+
+export function like(noteId) {
+  return api.post(`api/note/like/${noteId}`)
+}
+
+export function unlike(noteId) {
+  return api.post(`api/note/unlike/${noteId}`)
+}

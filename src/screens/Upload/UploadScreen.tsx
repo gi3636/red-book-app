@@ -64,7 +64,7 @@ export default function UploadScreen() {
     setLoading(true)
     try {
       let res = await uploadFiles(selectedImage)
-      if (res.code === 200) {
+      if (+res.code === 200) {
         let data = {
           content,
           title,
@@ -72,7 +72,7 @@ export default function UploadScreen() {
           images: res.data.fileUrl
         }
         let result = await noteService.add(data)
-        if (result.code === 200) {
+        if (+result.code === 200) {
           clearData()
           Alert.alert('发布成功')
         }
