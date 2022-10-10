@@ -3,23 +3,20 @@ import { HStack, Input, View } from 'native-base'
 import colors from '../../../styles/colors'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { commentService, noteService } from '../../../api'
+import { commentService } from '../../../api'
 import { appEmitter } from '../../../utils/app.emitter'
 import LikeBtn from '../../../components/IconButton/LikeBtn'
 import FavoriteBtn from '../../../components/IconButton/FavoriteBtn'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 
-function BottomInputBar({ item }) {
+function BottomInputBar({ item, total }) {
   const [comment, setComment] = React.useState('')
   const [isFocus, setIsFocus] = React.useState(false)
   const [toUserId, setToUserId] = React.useState(null)
   const [parentId, setParentId] = React.useState(null)
-  const [isLike, setIsLike] = React.useState(false)
-  const [isFavorite, setIsFavorite] = React.useState(false)
   const inputRef = React.useRef(null) as any
   const inputWidth = useSharedValue('45%')
   const viewOpacity = useSharedValue(0)
-  let lock = false
 
   const sendComment = async () => {
     let res = await commentService.add({
@@ -47,21 +44,6 @@ function BottomInputBar({ item }) {
       opacity: viewOpacity.value
     }
   })
-
-  const handleLike = async () => {
-    if (lock) return Promise.reject('点击太快了')
-    lock = true
-    let res = isLike ? await noteService.unlike(item.id) : await noteService.like(item.id)
-    if (+res.code === 200) {
-      lock = false
-      if (isLike) {
-        item.likeCount -= 1
-      } else {
-        item.likeCount += 1
-      }
-      setIsLike(!isLike)
-    }
-  }
 
   const handleBlur = () => {
     setIsFocus(false)
@@ -108,18 +90,17 @@ function BottomInputBar({ item }) {
 
         {!isFocus ? (
           <>
-            <HStack alignItems="center" justifyContent="space-between">
-              <LikeBtn onPress={handleLike} value={isLike} />
-              <Text style={styles.countText}>{item.likeCount}</Text>
-            </HStack>
-            <HStack alignItems="center" justifyContent="space-between">
-              <FavoriteBtn onPress={handleLike} value={isLike} />
-              <Text style={styles.countText}>{item.followCount}</Text>
-            </HStack>
-            <HStack alignItems="center" justifyContent="space-between">
-              <Ionicons name="chatbox-ellipses-outline" size={22} color="black" />
-              <Text style={styles.countText}>{item.likeCount}</Text>
-            </HStack>
+            <LikeBtn item={item} />
+            <FavoriteBtn item={item} />
+            <TouchableOpacity
+              onPress={() => {
+                appEmitter.fire(appEmitter.type.focusCommentInput, {})
+              }}>
+              <HStack alignItems="center" justifyContent="space-between">
+                <Ionicons name="chatbox-ellipses-outline" size={22} color="black" />
+                <Text style={styles.countText}>{total}</Text>
+              </HStack>
+            </TouchableOpacity>
           </>
         ) : (
           <TouchableOpacity onPress={sendComment}>

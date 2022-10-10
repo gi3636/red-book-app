@@ -2,7 +2,12 @@ import React from 'react'
 import { Avatar, HStack, Text } from 'native-base'
 import colors from '../../styles/colors'
 import { Feather, FontAwesome } from '@expo/vector-icons'
+import LikeBtn from '../IconButton/LikeBtn'
+import { noteService } from '../../api'
 function PreviewFooter({ item }) {
+  const [isLike, setIsLike] = React.useState(item.isLike)
+  let lock = false
+
   return (
     <HStack alignItems="center" space={4} justifyContent="space-around">
       <HStack alignItems="center">
@@ -18,11 +23,7 @@ function PreviewFooter({ item }) {
           {item.nickname}
         </Text>
       </HStack>
-      {item.like ? (
-        <FontAwesome name="heart" size={16} color={colors.danger} />
-      ) : (
-        <Feather name="heart" size={16} color={colors.placeholder} />
-      )}
+      <LikeBtn size={18} item={item} />
     </HStack>
   )
 }

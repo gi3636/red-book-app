@@ -24,6 +24,7 @@ api.interceptors.request.use(async function (config) {
 
 api.interceptors.response.use(
   function (res) {
+    console.log('响应数据：', res.data)
     if (res.data) {
       if (res.data.code === 47000) {
         //if (system.pc) {

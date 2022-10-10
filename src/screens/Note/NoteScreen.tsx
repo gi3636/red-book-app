@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Dimensions, ImageBackground, StyleSheet, Text } from 'react-native'
 import { useRoute } from '@react-navigation/native'
 import { HStack, ScrollView, View } from 'native-base'
@@ -10,63 +10,52 @@ import { convertTime } from '../../utils'
 import BottomInputBar from './Component/BottomInputBar'
 import CommentList from './Component/CommentList'
 import DislikeBtn from './Component/DislikeBtn'
+import NoteInfo from './Component/NoteInfo'
+import Background from '../../components/Background'
+import { appEmitter } from '../../utils/app.emitter'
+import { commentService } from '../../api'
 
-const screenHeight = Dimensions.get('window').height
-const screenWidth = Dimensions.get('window').width
 function NoteScreen(props) {
   const route = useRoute()
   const item: any = route.params
+  const [commentList, setCommentList] = React.useState<Array<any>>([])
+  const [total, setTotal] = React.useState(0)
+
+  useEffect(() => {
+    appEmitter.on(appEmitter.type.addNoteComment, (comment: any) => {
+      handleRefreshData()
+    })
+    handleRefreshData()
+  }, [])
+
+  const handleRefreshData = () => {
+    commentService.list({ noteId: item.id }).then((res) => {
+      setCommentList(res.data.list)
+      let commentTotal = +res.data.total
+      res.data.list.map((comment: any) => {
+        commentTotal += comment.children.length
+      })
+      setTotal(+commentTotal)
+    })
+  }
 
   return (
     //<LinearGradient colors={[colors.primary, colors.secondary]} style={{ flex: 1 }}>
-    <ImageBackground
-      style={{ flex: 1, backgroundColor: colors.primary }}
-      source={require('../../assets/images/bumble-bg.png')}
-      resizeMode="contain">
+    <Background>
       <ScrollView style={styles.container}>
-        <View style={styles.imageContainer}>
-          <ImageSwiper item={item} />
-        </View>
-        <View style={styles.detailContainer}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.content}>{item.content}</Text>
-          <HStack justifyContent="space-between" alignItems="center">
-            <Text style={styles.date}>{convertTime(item.createdTime, 'YYYY-MM-DD  HH:mm')}</Text>
-            <DislikeBtn />
-          </HStack>
-        </View>
-        <CommentList item={item} />
+        <ImageSwiper item={item} />
+        <NoteInfo item={item} />
+        <CommentList item={item} commentList={commentList} total={total} />
       </ScrollView>
-      <BottomInputBar item={item} />
-    </ImageBackground>
+      <BottomInputBar item={item} total={total} />
+    </Background>
     //</LinearGradient>
   )
 }
 const styles = StyleSheet.create({
   container: {
     height: 300,
-    // paddingBottom: 100,
     marginBottom: 65
-  },
-  imageContainer: {
-    height: screenHeight * 0.5,
-    backgroundColor: colors.black
-  },
-  detailContainer: {
-    padding: 10
-  },
-  title: {
-    color: colors.white,
-    fontSize: 20
-  },
-  content: {
-    marginVertical: 10,
-    color: colors.white,
-    fontSize: 14
-  },
-  date: {
-    fontSize: 12,
-    color: colors.white_smoke_200
   }
 })
 export default NoteScreen

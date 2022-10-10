@@ -1,34 +1,10 @@
-import React, { useEffect } from 'react'
-import { Center, HStack, View, Text } from 'native-base'
+import React from 'react'
+import { Center, Text, View } from 'native-base'
 import { StyleSheet } from 'react-native'
 import colors from '../../../styles/colors'
 import CommentItem from '../../../components/Comment/CommentItem'
-import { commentService } from '../../../api'
-import { appEmitter } from '../../../utils/app.emitter'
 
-function CommentList({ item }) {
-  const [commentList, setCommentList] = React.useState<Array<any>>([])
-  const [total, setTotal] = React.useState(0)
-
-  useEffect(() => {
-    appEmitter.on(appEmitter.type.addNoteComment, (comment: any) => {
-      handleRefreshData()
-    })
-    handleRefreshData()
-  }, [])
-
-  const handleRefreshData = () => {
-    commentService.list({ noteId: item.id }).then((res) => {
-      console.log(res)
-      setCommentList(res.data.list)
-      let commentTotal = +res.data.total
-      res.data.list.map((comment: any) => {
-        commentTotal += comment.children.length
-      })
-      setTotal(+commentTotal)
-    })
-  }
-
+function CommentList({ item, commentList, total }) {
   const renderCommentList = () => {
     return commentList.map((comment: any) => {
       if (comment.children.length > 0) {
