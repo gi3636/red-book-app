@@ -8,7 +8,7 @@ export function convertTime(time, format = 'YYYY-MM-DD') {
   return moment(+time).format(format)
 }
 
-export async function throttle(fn, delay) {
+export function throttle(fn, delay) {
   let timer
   return function () {
     let _this = this
