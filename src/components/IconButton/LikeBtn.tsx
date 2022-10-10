@@ -5,6 +5,7 @@ import * as Animatable from 'react-native-animatable'
 import { noteService } from '../../api'
 import { StyleSheet, Text } from 'react-native'
 import colors from '../../styles/colors'
+import { appEmitter } from '../../utils/app.emitter'
 
 type Props = {
   item: any
@@ -30,6 +31,7 @@ function LikeBtn({ item, size = 22 }: Props) {
         item.likeCount += 1
       }
       setIsLike(!isLike)
+      appEmitter.emit(appEmitter.type.updateCommentData, item)
       //@ts-ignore
       likeRef.current.bounceIn()
     }

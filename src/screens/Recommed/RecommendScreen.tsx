@@ -10,6 +10,8 @@ import TouchableScale from 'react-native-touchable-scale'
 import { throttle } from '../../utils'
 import { noteService } from '../../api'
 import { useSelector } from 'react-redux'
+import Background from '../../components/Background'
+import { appEmitter } from '../../utils/app.emitter'
 
 const screenHeight = Dimensions.get('window').height
 function RecommendScreen({ navigation }) {
@@ -19,6 +21,12 @@ function RecommendScreen({ navigation }) {
   const mySelf = useSelector((state: any) => {
     return state.user
   })
+
+  useEffect(() => {
+    appEmitter.on(appEmitter.type.updateCommentData, (comment: any) => {
+      updateCommentData(comment)
+    })
+  }, [])
   const refreshData = async () => {
     setLoading(true)
     if (!loading) {
@@ -39,6 +47,15 @@ function RecommendScreen({ navigation }) {
   useEffect(() => {
     refreshData()
   }, [])
+  const updateCommentData = (comment: any) => {
+    let newData = data.map((item) => {
+      if (item.id === comment.id) {
+        item = { ...comment }
+      }
+      return item
+    })
+    setData([...newData])
+  }
 
   const renderNoteList = useMemo(() => {
     return (
@@ -69,16 +86,11 @@ function RecommendScreen({ navigation }) {
   }, [data, loading])
 
   return (
-    //<LinearGradient colors={[colors.primary, colors.secondary]} style={styles.background}>
-    <ImageBackground
-      style={{ flex: 1, backgroundColor: colors.primary }}
-      source={require('../../assets/images/bumble-bg.png')}
-      resizeMode="contain">
+    <Background>
       <View width="100%" height={screenHeight - 25} pt="82">
         {renderNoteList}
       </View>
-    </ImageBackground>
-    //</LinearGradient>
+    </Background>
   )
 }
 

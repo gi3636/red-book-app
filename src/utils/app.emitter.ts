@@ -33,7 +33,8 @@ enum AppEmitterType {
   updateApp,
   UserStatus,
   focusCommentInput,
-  addNoteComment
+  addNoteComment,
+  updateCommentData
 }
 
 class AppEmmiter extends Emmiter {
