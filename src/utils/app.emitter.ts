@@ -34,7 +34,8 @@ enum AppEmitterType {
   UserStatus,
   focusCommentInput,
   addNoteComment,
-  updateCommentData
+  updateCommentData,
+  refreshPreviewCard
 }
 
 class AppEmmiter extends Emmiter {

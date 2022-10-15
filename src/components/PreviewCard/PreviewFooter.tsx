@@ -1,15 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Avatar, HStack, Text } from 'native-base'
 import colors from '../../styles/colors'
-import { Feather, FontAwesome } from '@expo/vector-icons'
 import LikeBtn from '../IconButton/LikeBtn'
-import { noteService } from '../../api'
+import { appEmitter } from '../../utils/app.emitter'
 function PreviewFooter({ item }) {
-  const [isLike, setIsLike] = React.useState(item.isLike)
-  let lock = false
+  const [key, setKey] = React.useState(item.id)
+
+  useEffect(() => {
+    appEmitter.on(appEmitter.type.refreshPreviewCard, (id) => {
+      if (item.id === id) {
+        setKey(Math.random())
+      }
+    })
+  }, [])
 
   return (
-    <HStack alignItems="center" space={4} justifyContent="space-around">
+    <HStack key={key} alignItems="center" space={4} justifyContent="space-around">
       <HStack alignItems="center">
         <Avatar
           bg="coolGray.200"

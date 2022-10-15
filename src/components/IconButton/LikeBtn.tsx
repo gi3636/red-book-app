@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { HStack, Pressable } from 'native-base'
 import { AntDesign } from '@expo/vector-icons'
 import * as Animatable from 'react-native-animatable'
@@ -15,25 +15,25 @@ type Props = {
 function LikeBtn({ item, size = 22 }: Props) {
   const likeRef = React.useRef(null)
   const [isLike, setIsLike] = React.useState(item.isLike)
-  let lock = false
+  if (item.isLike !== isLike) {
+    setIsLike(item.isLike)
+  }
 
   const pressLike = async () => {
-    if (lock) return
-    lock = true
+    //@ts-ignore
+    likeRef.current.bounceIn()
+    setIsLike(!isLike)
+    if (isLike) {
+      item.isLike = false
+      item.likeCount -= 1
+    } else {
+      item.isLike = true
+      item.likeCount += 1
+    }
+    appEmitter.fire(appEmitter.type.refreshPreviewCard, item.id)
     let res = isLike ? await noteService.unlike(item.id) : await noteService.like(item.id)
     if (+res.code === 200) {
-      lock = false
-      if (isLike) {
-        item.isLike = false
-        item.likeCount -= 1
-      } else {
-        item.isLike = true
-        item.likeCount += 1
-      }
-      setIsLike(!isLike)
-      appEmitter.emit(appEmitter.type.updateCommentData, item)
-      //@ts-ignore
-      likeRef.current.bounceIn()
+      // appEmitter.emit(appEmitter.type.updateCommentData, item)
     }
   }
   return (
