@@ -12,36 +12,33 @@ type Props = {
 }
 
 function FavoriteBtn({ item, size = 22 }: Props) {
-  const likeRef = React.useRef(null)
-  const [isLike, setIsLike] = React.useState(item.isLike)
-  let lock = false
+  const favoriteRef = React.useRef(null)
+  const [isFavorite, setIsFavorite] = React.useState(item.isFavorite)
 
   const pressLike = async () => {
-    if (lock) return
-    lock = true
-    let res = isLike ? await noteService.unlike(item.id) : await noteService.like(item.id)
+    //@ts-ignore
+    favoriteRef.current.bounceIn()
+    setIsFavorite(!isFavorite)
+    if (isFavorite) {
+      item.isFavorite = false
+      item.favoriteCount -= 1
+    } else {
+      item.isFavorite = true
+      item.favoriteCount += 1
+    }
+    let res = isFavorite ? await noteService.cancelFavorite(item.id) : await noteService.favorite(item.id)
     if (+res.code === 200) {
-      lock = false
-      if (isLike) {
-        item.isLike = false
-        item.likeCount -= 1
-      } else {
-        item.isLike = true
-        item.likeCount += 1
-      }
-      setIsLike(!isLike)
-      //@ts-ignore
-      likeRef.current.bounceIn()
+      // appEmitter.emit(appEmitter.type.updateCommentData, item)
     }
   }
   return (
     <HStack alignItems="center" justifyContent="space-between">
       <Pressable onPress={pressLike}>
-        <Animatable.View ref={likeRef}>
-          <AntDesign name={isLike ? 'star' : 'staro'} size={size} color={isLike ? colors.yellow : 'black'} />
+        <Animatable.View ref={favoriteRef}>
+          <AntDesign name={isFavorite ? 'star' : 'staro'} size={size} color={isFavorite ? colors.yellow : 'black'} />
         </Animatable.View>
       </Pressable>
-      <Text style={styles.countText}>{item.likeCount}</Text>
+      <Text style={styles.countText}>{item.favoriteCount}</Text>
     </HStack>
   )
 }

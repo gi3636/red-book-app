@@ -25,3 +25,11 @@ export function like(noteId) {
 export function unlike(noteId) {
   return api.post(`api/note/unlike/${noteId}`)
 }
+
+export function favorite(noteId) {
+  return api.post(`api/note/favorite/${noteId}`)
+}
+
+export function cancelFavorite(noteId) {
+  return api.post(`api/note/cancelFavorite/${noteId}`)
+}
