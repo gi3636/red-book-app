@@ -1,3 +1,11 @@
+/*
+ * @Author: gi3636 fenggi123@gmail.com
+ * @Date: 2022-10-07 21:15:49
+ * @LastEditors: gi3636 fenggi123@gmail.com
+ * @LastEditTime: 2022-11-15 22:56:05
+ * @FilePath: \red-book-app\src\navigation\RootNavigator.tsx
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import NotFoundScreen from '../screens/NotFoundScreen'
 import ModalScreen from '../screens/ModalScreen'
 import * as React from 'react'
@@ -28,7 +36,7 @@ export default function RootNavigator() {
     navigation.navigate(myself.token ? 'Root' : 'Login')
   }, [myself.token])
   return (
-    <Stack.Navigator initialRouteName={'Root'}>
+    <Stack.Navigator initialRouteName={'Login'}>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
       <Stack.Group

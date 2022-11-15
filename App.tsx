@@ -8,7 +8,7 @@ import 'react-native-gesture-handler'
 import store from './src/store'
 import { Provider } from 'react-redux'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-
+import { RootSiblingParent } from 'react-native-root-siblings'
 export default function App() {
   const isLoadingComplete = useCachedResources()
   const colorScheme = useColorScheme()
@@ -20,7 +20,9 @@ export default function App() {
     <SafeAreaProvider>
       <Provider store={store}>
         <NativeBaseProvider theme={customTheme}>
-          <Navigation colorScheme={colorScheme} />
+          <RootSiblingParent>
+            <Navigation colorScheme={colorScheme} />
+          </RootSiblingParent>
         </NativeBaseProvider>
         <StatusBar />
       </Provider>
