@@ -32,8 +32,6 @@ function Detail({ myself }) {
     setCollapsedProps({ ...collapsedProps, numberOfLines: collapsed ? 100 : 2 })
   }
 
-  useEffect(() => {}, [])
-
   return (
     <>
       {/* 关注，分数，获得赞*/}
@@ -100,7 +98,12 @@ function Detail({ myself }) {
               if (!collapsedProps.maxHeight) {
                 setCollapsedProps({ ...collapsedProps, maxHeight: height, numberOfLines: 2 })
               } else {
-                setCollapsedProps({ ...collapsedProps, minHeight: height, expanded: collapsedProps.maxHeight > height })
+                setCollapsedProps({
+                  ...collapsedProps,
+                  minHeight: height,
+                  expanded: collapsedProps.maxHeight > height,
+                  showExpandText: collapsedProps.maxHeight > height
+                })
               }
             }
           }}>
@@ -112,10 +115,10 @@ function Detail({ myself }) {
               color: colors.main_font,
               fontSize: 14
             }}>
-            {myself.description}
+            {myself.description || '这个人很懒，什么都没有留下'}
           </Animatable.Text>
         </View>
-        {collapsedProps.expanded && (
+        {collapsedProps.showExpandText && (
           <Flex>
             <TouchableScale friction={90} tension={100} activeScale={0.95} onPress={handleCollapse}>
               <Text
