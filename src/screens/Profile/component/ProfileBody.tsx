@@ -8,12 +8,7 @@
  */
 import React from 'react'
 import { View } from 'native-base'
-import { Avatar, Text } from '@rneui/base'
 import colors from '../../../styles/colors'
-import FemaleIcon from '../../../assets/images/female.svg'
-import MaleIcon from '../../../assets/images/male.svg'
-import CopyIcon from '../../../assets/images/copy.svg'
-import Detail from './Detail'
 import HorizontalLine from '../../../components/HorizontalLine'
 import CollectionTab from './CollectionTab'
 import EditBtn from './EditBtn'
@@ -21,15 +16,14 @@ import { Dimensions, StyleSheet } from 'react-native'
 import ProfileDetail from './ProfileDetail'
 /* 屏幕的宽度 */
 const screenWidth = Dimensions.get('window').width
-/* 屏幕的高度 */
-const screenHeight = Dimensions.get('window').height
+
 function ProfileBody({ navigation }) {
   return (
     <View style={styles.profileContainer}>
       <View style={styles.content}>
         {/*详情*/}
         <ProfileDetail />
-        {/* 水平线 */}
+        {/*水平线 */}
         <HorizontalLine />
         {/* 选单 */}
         <CollectionTab />
