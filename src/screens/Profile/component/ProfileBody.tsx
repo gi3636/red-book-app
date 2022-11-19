@@ -17,7 +17,7 @@ import ProfileDetail from './ProfileDetail'
 /* 屏幕的宽度 */
 const screenWidth = Dimensions.get('window').width
 
-function ProfileBody({ navigation }) {
+function ProfileBody({ navigation, user }) {
   return (
     <View style={styles.profileContainer}>
       <View style={styles.content}>
@@ -26,7 +26,7 @@ function ProfileBody({ navigation }) {
         {/*水平线 */}
         <HorizontalLine />
         {/* 选单 */}
-        <CollectionTab />
+        <CollectionTab user={user} />
       </View>
       <EditBtn navigation={navigation} />
     </View>

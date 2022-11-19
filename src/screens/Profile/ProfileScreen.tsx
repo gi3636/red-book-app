@@ -8,28 +8,31 @@
  */
 import { LinearGradient } from 'expo-linear-gradient'
 import * as React from 'react'
-import { Dimensions, ScrollView, StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 import colors from '../../styles/colors'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { View } from 'native-base'
 import ProfileHeader from './component/ProfileHeader'
 import ProfileBody from './component/ProfileBody'
-import { appEmitter } from '../../utils/app.emitter'
-/* 屏幕的宽度 */
-const screenWidth = Dimensions.get('window').width
-/* 屏幕的高度 */
-const screenHeight = Dimensions.get('window').height
-export default function ProfileScreen({ navigation }) {
-  let lock = false
-  function handleScrollEnd() {
-    console.log('测试')
+import { appEmitter } from '@/utils/app.emitter'
+import { useSelector } from 'react-redux'
 
-    if (lock) return
-    lock = true
-    appEmitter.fire(appEmitter.type.loadData)
-    setTimeout(() => {
-      lock = false
-    }, 3000)
+export default function ProfileScreen({ navigation, route }) {
+  let lock = false
+  let myself = useSelector((state: any) => state.user)
+  //没有传参表示是自己的主页
+  let user = route.params || myself
+
+  function handleScrollEnd(e) {
+    const offsetY = e.nativeEvent.contentOffset.y //滑动距离
+    const originalScrollHeight = e.nativeEvent.layoutMeasurement.height //scrollView高度
+    const contentSizeHeight = e.nativeEvent.contentSize.height //scrollView contentSize高度
+    if (offsetY + originalScrollHeight >= contentSizeHeight && !lock) {
+      lock = true
+      appEmitter.fire(appEmitter.type.loadData)
+      setTimeout(() => {
+        lock = false
+      }, 3000)
+    }
   }
   return (
     <LinearGradient
@@ -40,7 +43,7 @@ export default function ProfileScreen({ navigation }) {
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1 }} onMomentumScrollEnd={handleScrollEnd}>
           <ProfileHeader />
-          <ProfileBody navigation={navigation} />
+          <ProfileBody navigation={navigation} user={user} />
         </ScrollView>
       </SafeAreaView>
     </LinearGradient>

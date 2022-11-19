@@ -1,17 +1,19 @@
 /*
  * @Author: gi3636 fenggi123@gmail.com
  * @Date: 2022-11-15 22:44:16
- * @LastEditors: gi3636 fenggi123@gmail.com
- * @LastEditTime: 2022-11-16 00:03:03
+ * @LastEditors: franky franky.b@iscmango.com
+ * @LastEditTime: 2022-11-17 11:21:32
  * @FilePath: \red-book-app\src\api\api.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import axios from 'axios'
-import { getStorageToken } from '../utils/storage'
+import { clearUserStorage, getStorageToken } from '../utils/storage'
 import { Alert } from 'react-native'
 import Toast from 'react-native-root-toast'
+import { userLogout } from '../store/user/slice'
+import { useDispatch } from 'react-redux'
 
-const api_url = 'http://192.168.254.104:8080/'
+const api_url = 'http://192.168.0.168:8080/'
 
 export let api = axios.create({
   baseURL: api_url
@@ -32,15 +34,11 @@ api.interceptors.request.use(async function (config) {
 api.interceptors.response.use(
   function (res) {
     console.log('返回数据：', res.data)
-
-    // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
-
     if (res.data) {
-      if (res.data.code === 47000) {
-        throw new Error(res.data.message)
-      }
-
-      if (res.data.code === 47000) {
+      if (res.data.code === 401) {
+        Toast.show(res.data.message, {
+          duration: Toast.durations.LONG
+        })
         throw new Error(res.data.message)
       }
     }

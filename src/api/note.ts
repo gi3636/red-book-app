@@ -1,6 +1,6 @@
 /** @format */
 import { api } from './api'
-import { NoteFavoriteParam, NoteLikedParam } from '../constants/type/Note'
+import { NoteQueryParam } from '../constants/type/Note'
 
 export function add(param) {
   return api.post('api/note/add', param)
@@ -39,7 +39,7 @@ export function cancelFavorite(noteId) {
  * 获取收藏过的笔记
  * @param param
  */
-export function getFavoriteNoteList(param: NoteFavoriteParam) {
+export function getFavoriteNoteList(param: NoteQueryParam) {
   return api.post('api/note/favorite/list', param)
 }
 
@@ -47,6 +47,14 @@ export function getFavoriteNoteList(param: NoteFavoriteParam) {
  * 获取点赞过的笔记
  * @param param
  */
-export function getLikedNoteList(param: NoteLikedParam) {
+export function getLikedNoteList(param: NoteQueryParam) {
   return api.post('api/note/like/list', param)
+}
+
+/**
+ * 获取点赞过的笔记
+ * @param param
+ */
+export function getPersonalNoteList(param: NoteQueryParam) {
+  return api.post('api/note/list', param)
 }

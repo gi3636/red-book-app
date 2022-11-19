@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Text, useToast, View } from 'native-base'
 import { useDispatch } from 'react-redux'
-import { appEmitter } from '../../../utils/app.emitter'
+import { appEmitter } from '@/utils/app.emitter'
 import { userService } from '../../../api'
-import { updateUser } from '../../../store/user/slice'
+import { updateUser } from '@/store/user/slice'
 import colors from '../../../styles/colors'
 import { FlatList } from 'react-native'
 import TouchableScale from 'react-native-touchable-scale'
@@ -11,13 +11,13 @@ import { AntDesign } from '@expo/vector-icons'
 import { ListItem } from '@rneui/themed'
 
 function EditSexScreen({ navigation, route }) {
-  const [sex, setSex] = useState(route.params || '保密')
+  const [sex, setSex] = useState(route.params || 0)
   const toast = useToast()
   const dispatch = useDispatch()
   useEffect(() => {
     appEmitter.singleton(appEmitter.type.editData, async () => {
       try {
-        let res = await userService.update({ sex })
+        let res = (await userService.update({ sex })) as any
         if (+res.code === 200) {
           toast.show({
             title: '修改成功',
@@ -39,13 +39,16 @@ function EditSexScreen({ navigation, route }) {
 
   let sexList = [
     {
-      label: '男'
+      label: '男',
+      value: 1
     },
     {
-      label: '女'
+      label: '女',
+      value: 2
     },
     {
-      label: '保密'
+      label: '保密',
+      value: 0
     }
   ]
 
@@ -58,11 +61,11 @@ function EditSexScreen({ navigation, route }) {
           friction={90} //
           tension={100} // These props are passed to the parent component (here TouchableScale)
           activeScale={0.95}
-          onPress={setSex.bind(null, item.label)}>
+          onPress={setSex.bind(null, item.value)}>
           <ListItem.Content>
             <ListItem.Title style={{ color: colors.main_font, minWidth: 70 }}>{item.label}</ListItem.Title>
           </ListItem.Content>
-          {sex === item.label && <AntDesign name="check" size={24} color={colors.primary} />}
+          {sex === item.value && <AntDesign name="check" size={24} color={colors.primary} />}
         </ListItem>
       </>
     )

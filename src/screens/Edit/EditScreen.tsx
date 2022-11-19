@@ -11,7 +11,7 @@ import EditNicknameScreen from './components/EditNicknameScreen'
 import EditDescriptionScreen from './components/EditDescriptionScreen'
 import EditSexScreen from './components/EditSexScreen'
 import EditBirthdayScreen from './components/EditBirthdayScreen'
-import { convertTime } from '../../utils'
+import { convertTime } from '@/utils'
 
 export const userPropsList = [
   {
@@ -76,6 +76,9 @@ export default function EditScreen({ navigation }) {
   function convertData(name) {
     if (name === 'birthday') {
       return mySelf[name] && convertTime(mySelf[name])
+    }
+    if (name === 'sex') {
+      return mySelf[name] && ['保密', '男', '女'][mySelf[name]]
     }
     return mySelf[name]
   }

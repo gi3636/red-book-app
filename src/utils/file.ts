@@ -1,7 +1,5 @@
 /** @format */
-import { nanoid } from 'nanoid'
-import { api } from '../api/api'
-import { useId } from 'react'
+import { api } from '@/api/api'
 
 function getSuffix(fileName) {
   return fileName.substring(fileName.lastIndexOf('.') + 1)

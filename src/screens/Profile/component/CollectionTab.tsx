@@ -3,64 +3,95 @@ import MasonryList from '@react-native-seoul/masonry-list'
 import { Tab, TabView } from '@rneui/base'
 import { View } from 'native-base'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Alert, useWindowDimensions } from 'react-native'
 import { noteService } from '../../../api'
 import PreviewCard from '../../../components/PreviewCard/PreviewCard'
 import colors from '../../../styles/colors'
 import { appEmitter } from '../../../utils/app.emitter'
-import { NoteFavoriteParam, NoteLikedParam, NoteQueryParam } from '../../../constants/type/Note'
-import { useSelector } from 'react-redux'
+import { NoteQueryParam } from '../../../constants/type/Note'
+import TouchableScale from 'react-native-touchable-scale'
+import { useNavigation } from '@react-navigation/native'
 
-enum getDataType {
+enum GetDataType {
   Init = 'init', // 初始化
   Load = 'load' // 加载更多
 }
+enum TabType {
+  Personal,
+  Liked,
+  Favorite
+}
 
-function CollectionTab(props) {
+function CollectionTab({ user }: { user: any }) {
   const [index, setIndex] = React.useState(0)
   const [loading, setLoading] = useState(false)
-  const [data, setData] = useState<any>([])
   const [containerHeight, setContainerHeight] = useState(0)
-  const self = useSelector((state: any) => state.user)
+  const [personalDataList, setPersonalDataList] = useState<any>([])
   const [likeDataList, setLikeDataList] = useState<any>([])
   const [favoriteDataList, setFavoriteDataList] = useState<any>([])
-  const [likedParam, setLikedParam] = useState<NoteLikedParam>({
+  const navigation = useNavigation()
+  const containerRef = React.useRef(null)
+  const [personalParam, setPersonalParam] = useState<NoteQueryParam>({
     currentPage: 1,
     size: 10,
-    userId: self.id
+    userId: user.id
   })
-  const [favoriteParam, setFavoriteParam] = useState<NoteFavoriteParam>({
+  const [likedParam, setLikedParam] = useState<NoteQueryParam>({
     currentPage: 1,
     size: 10,
-    userId: self.id
+    userId: user.id
+  })
+  const [favoriteParam, setFavoriteParam] = useState<NoteQueryParam>({
+    currentPage: 1,
+    size: 10,
+    userId: user.id
   })
   let lock = false
 
   useEffect(() => {
-    appEmitter.on(appEmitter.type.loadData, loadingData)
-  }, [favoriteDataList, likeDataList])
+    appEmitter.singleton(appEmitter.type.loadData, loadingData)
+  }, [favoriteDataList, likeDataList, personalDataList])
 
   useEffect(() => {
     refreshData()
   }, [])
 
+  const changeIndex = (value: number) => {
+    setIndex(value)
+    refreshData(value)
+    adjustContainerHeight(0, value)
+  }
+
+  /**
+   * 获取个人笔记数据
+   * @param type
+   */
+  const getPersonalNoteData = (type: GetDataType) => {
+    noteService.getPersonalNoteList(personalParam).then((res) => {
+      let length
+      if (type === GetDataType.Init) {
+        length = res?.data?.list?.length
+        setPersonalDataList(res?.data?.list)
+      } else {
+        length = personalDataList?.length + res?.data?.list?.length
+        setPersonalDataList([...personalDataList, ...res?.data?.list])
+      }
+      adjustContainerHeight(length)
+    })
+  }
+
   /**
    * 获取点赞数据
    * @param type
    */
-  const getLikeData = (type: getDataType) => {
+  const getLikeNoteData = (type: GetDataType) => {
     noteService.getLikedNoteList(likedParam).then((res) => {
-      console.log('res', res)
-      console.log('type', type)
       let length
-      if (type === getDataType.Init) {
+      if (type === GetDataType.Init) {
         length = res?.data?.list?.length
         setLikeDataList(res?.data?.list)
       } else {
         length = likeDataList?.length + res?.data?.list?.length
         setLikeDataList([...likeDataList, ...res?.data?.list])
-        console.log('likeDataList', likeDataList)
-        console.log('res?.data?.list', res?.data?.list)
       }
       adjustContainerHeight(length)
     })
@@ -70,10 +101,10 @@ function CollectionTab(props) {
    * 获取收藏数据
    * @param type
    */
-  const getFavoriteData = (type: getDataType) => {
+  const getFavoriteNoteData = (type: GetDataType) => {
     noteService.getFavoriteNoteList(favoriteParam).then((res) => {
       let length
-      if (type === getDataType.Init) {
+      if (type === GetDataType.Init) {
         length = res?.data?.list?.length
         setFavoriteDataList(res?.data?.list)
       } else {
@@ -88,54 +119,75 @@ function CollectionTab(props) {
    * 调整容器高度
    * @param length
    */
-  const adjustContainerHeight = (length) => {
-    setContainerHeight(Math.ceil(length / 2) * 180)
-  }
-
-  const refreshData = async () => {
-    setLoading(true)
-    if (!loading) {
-      //TODO: 有bug过后修复
-      if (index === 0) {
-        getLikeData(getDataType.Init)
-      } else {
-        getFavoriteData(getDataType.Init)
+  const adjustContainerHeight = (length, value?: number) => {
+    if (length) {
+      let height = Math.ceil(length / 2) * 180
+      setContainerHeight(height)
+    } else {
+      let dataList = [personalDataList, likeDataList, favoriteDataList][value || 0]
+      if (dataList?.length) {
+        let height = Math.ceil(dataList.length / 2) * 180
+        setContainerHeight(height)
       }
     }
-    setLoading(false)
   }
+
+  const refreshData = async (value?: number) => {
+    if (value) {
+      if (value === TabType.Personal && personalDataList.length === 0) {
+        getPersonalNoteData(GetDataType.Init)
+      } else if (value === TabType.Liked && likeDataList.length === 0) {
+        getLikeNoteData(GetDataType.Init)
+      } else if (value === TabType.Favorite && favoriteDataList.length === 0) {
+        getFavoriteNoteData(GetDataType.Init)
+      }
+    } else {
+      if (!loading) {
+        if (index === TabType.Personal) {
+          getPersonalNoteData(GetDataType.Init)
+        } else if (index === TabType.Favorite) {
+          getFavoriteNoteData(GetDataType.Init)
+        } else {
+          getLikeNoteData(GetDataType.Init)
+        }
+      }
+    }
+  }
+
   const loadingData = useCallback(async () => {
     setLoading(true)
     if (!lock) {
       lock = true
-      if (index === 0) {
-        getLikeData(getDataType.Load)
+      if (index === TabType.Personal) {
+        getPersonalNoteData(GetDataType.Load)
+      } else if (index === TabType.Favorite) {
+        getFavoriteNoteData(GetDataType.Load)
       } else {
-        getFavoriteData(getDataType.Load)
+        getLikeNoteData(GetDataType.Load)
       }
       lock = false
     }
     setLoading(false)
-  }, [favoriteDataList, likeDataList])
+  }, [favoriteDataList, likeDataList, personalDataList, containerHeight])
 
   const renderTab = useMemo(() => {
     let arr = [
       {
-        id: 1,
+        id: TabType.Personal,
+        data: personalDataList
+      },
+      {
+        id: TabType.Liked,
         data: likeDataList
       },
       {
-        id: 2,
-        data: favoriteDataList
-      },
-      {
-        id: 3,
+        id: TabType.Favorite,
         data: favoriteDataList
       }
     ]
     return arr?.map((obj: any) => {
       return (
-        <TabView.Item style={{ backgroundColor: 'tranparent', width: '100%' }}>
+        <TabView.Item style={{ backgroundColor: 'transparent', width: '100%' }}>
           <MasonryList
             LoadingView={null}
             data={obj.data}
@@ -143,21 +195,32 @@ function CollectionTab(props) {
             numColumns={2}
             scrollEnabled={false}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => <PreviewCard item={item} />}
+            renderItem={({ item }) => (
+              <TouchableScale
+                key={item.id}
+                friction={100}
+                tension={100}
+                activeScale={0.98}
+                onPress={() => {
+                  //@ts-ignore
+                  navigation.navigate('Note', item)
+                }}>
+                <PreviewCard item={item} />
+              </TouchableScale>
+            )}
             refreshing={loading}
-            //onRefresh={refreshData}
-            // onEndReachedThreshold={0.7}
-            // onEndReached={loadingData}
           />
         </TabView.Item>
       )
     })
-  }, [likeDataList, favoriteDataList])
+  }, [likeDataList, favoriteDataList, personalDataList, containerHeight])
+  console.log('渲染')
+  console.log('containerHeight', containerHeight)
   return (
-    <View w="100%" style={{ overflow: 'hidden', minHeight: containerHeight || '100%' }}>
+    <View ref={containerRef} w="100%" style={{ overflow: 'hidden', height: containerHeight, minHeight: '100%' }}>
       <Tab
         value={index}
-        onChange={(e) => setIndex(e)}
+        onChange={(e) => changeIndex(e)}
         containerStyle={{ backgroundColor: 'white', marginBottom: 10 }}
         indicatorStyle={{
           marginLeft: '10%',
@@ -187,47 +250,8 @@ function CollectionTab(props) {
         />
       </Tab>
       {containerHeight ? (
-        <TabView value={index} onChange={setIndex}>
+        <TabView value={index} onChange={changeIndex}>
           {renderTab}
-          {/*<TabView.Item style={{ backgroundColor: 'tranparent', width: '100%' }}>*/}
-          {/*  <MasonryList*/}
-          {/*    LoadingView={null}*/}
-          {/*    data={data}*/}
-          {/*    keyExtractor={(item): string => item.id}*/}
-          {/*    numColumns={2}*/}
-          {/*    scrollEnabled={false}*/}
-          {/*    showsVerticalScrollIndicator={false}*/}
-          {/*    renderItem={({ item }) => <PreviewCard item={item} />}*/}
-          {/*    refreshing={loading}*/}
-          {/*    onRefresh={refreshData}*/}
-          {/*    // onEndReachedThreshold={0.7}*/}
-          {/*    // onEndReached={loadingData}*/}
-          {/*  />*/}
-          {/*</TabView.Item>*/}
-          {/*<TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>*/}
-          {/*  <MasonryList*/}
-          {/*    data={data}*/}
-          {/*    keyExtractor={(item): string => item.id}*/}
-          {/*    numColumns={2}*/}
-          {/*    showsVerticalScrollIndicator={false}*/}
-          {/*    renderItem={({ item }) => <PreviewCard item={item} />}*/}
-          {/*    refreshing={loading}*/}
-          {/*    onRefresh={refreshData}*/}
-          {/*    // onEndReached={loadingData}*/}
-          {/*  />*/}
-          {/*</TabView.Item>*/}
-          {/*<TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>*/}
-          {/*  <MasonryList*/}
-          {/*    data={data}*/}
-          {/*    keyExtractor={(item): string => item.id}*/}
-          {/*    numColumns={2}*/}
-          {/*    showsVerticalScrollIndicator={false}*/}
-          {/*    renderItem={({ item }) => <PreviewCard item={item} />}*/}
-          {/*    refreshing={loading}*/}
-          {/*    onRefresh={refreshData}*/}
-          {/*    // onEndReached={loadingData}*/}
-          {/*  />*/}
-          {/*</TabView.Item>*/}
         </TabView>
       ) : null}
     </View>
