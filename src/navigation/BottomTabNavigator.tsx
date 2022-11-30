@@ -5,7 +5,7 @@ import { AntDesign, Feather, FontAwesome } from '@expo/vector-icons'
 import HomeScreen from '../screens/Home/HomeScreen'
 import colors from '../styles/colors'
 import ProfileNavigator from './ProfileNavigator'
-import MessageScreen from '../screens/Message/MessageScreen'
+import ChatScreen from '../screens/Message/ChatScreen'
 import UploadIcon from '../assets/images/upload-btn.svg'
 import TouchableScale from 'react-native-touchable-scale'
 import { useNavigation } from '@react-navigation/native'
@@ -108,9 +108,9 @@ export default function BottomTabNavigator() {
         />
         <BottomTab.Screen
           name="Message"
-          component={MessageScreen}
+          component={ChatScreen}
           options={{
-            tabBarLabel: '信息',
+            tabBarLabel: '消息',
             headerStyle: {
               backgroundColor: colors.primary
             },
