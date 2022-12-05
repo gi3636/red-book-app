@@ -18,9 +18,11 @@ import { useNavigation } from '@react-navigation/native'
 import NoteScreen from '../screens/Note/NoteScreen'
 import CustomNoteHeader from '../components/CustomNoteHeader'
 import colors from '../styles/colors'
-import { AntDesign } from '@expo/vector-icons'
+import { AntDesign, Feather } from '@expo/vector-icons'
 import SearchScreen from '../screens/Search/SearchScreen'
 import CustomSearchHeader from '../screens/Search/Component/CustomSearchHeader'
+import MessageScreen from '@/screens/Message/MessageScreen'
+import CustomMessageHeader from '@/screens/Message/component/CustomMessageHeader'
 
 /**
  * A root stack navigator is often used for displaying modals on top of all other content.
@@ -54,6 +56,25 @@ export default function RootNavigator() {
             },
             headerRight: () => {
               return <AntDesign name="sharealt" size={22} color="white" />
+            },
+            headerShadowVisible: true,
+            headerTintColor: colors.white,
+            headerLargeTitleStyle: {
+              color: colors.white
+            }
+          }}
+        />
+        <Stack.Screen
+          name="Message"
+          component={MessageScreen}
+          options={{
+            headerShown: true,
+            headerTitle: () => <CustomMessageHeader />,
+            headerStyle: {
+              backgroundColor: colors.primary
+            },
+            headerRight: () => {
+              return <Feather name="menu" size={22} color="white" />
             },
             headerShadowVisible: true,
             headerTintColor: colors.white,

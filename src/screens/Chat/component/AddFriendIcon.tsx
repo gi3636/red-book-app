@@ -1,8 +1,7 @@
-import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import React from 'react'
 import Icon from '../../../assets/images/add-friend.svg'
 import colors from '@/styles/colors'
-import { position } from 'native-base/lib/typescript/theme/styled-system'
 
 interface AddFriendIconProps {
   onPress?: Function
