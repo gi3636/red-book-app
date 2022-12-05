@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Text, useToast, View } from 'native-base'
 import { useDispatch } from 'react-redux'
-import { appEmitter } from '../../../utils/app.emitter'
+import { appEmitter } from '@/utils/app.emitter'
 import { userService } from '../../../api'
-import { updateUser } from '../../../store/user/slice'
+import { updateUser } from '@/store/user/slice'
 import colors from '../../../styles/colors'
 import CustomInput from '../../../components/CustomInput'
 

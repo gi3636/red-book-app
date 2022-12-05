@@ -12,6 +12,10 @@ import { noteService } from '../../api'
 import { useSelector } from 'react-redux'
 import Background from '../../components/Background'
 import { appEmitter } from '../../utils/app.emitter'
+import { Button } from '@rneui/base'
+import { ws } from '@/socket/Socket'
+import { DataContent, MessageActionType } from '@/socket/SocketType'
+import { ChatMsg } from '../../socket/SocketType'
 
 const screenHeight = Dimensions.get('window').height
 function RecommendScreen({ navigation }) {
@@ -88,9 +92,30 @@ function RecommendScreen({ navigation }) {
     )
   }, [data, loading])
 
+  const test = () => {
+    ws.connect()
+  }
+
+  const send = () => {
+    // socket.emit('ping', 'test')
+    // console.log('ping')
+    let payload: DataContent = {
+      action: MessageActionType.CHAT,
+      chatMsg: {
+        senderId: '1',
+        receiverId: '2',
+        msg: 'test',
+        msgId: 'text'
+      },
+      extend: '123'
+    }
+    ws.send(payload)
+  }
   return (
     <Background>
       <View width="100%" height={screenHeight - 25} pt="82">
+        <Button onPress={test}>测试</Button>
+        <Button onPress={send}>发送</Button>
         {renderNoteList}
       </View>
     </Background>
