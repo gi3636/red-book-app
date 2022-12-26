@@ -15,8 +15,8 @@ export function list(param) {
   })
 }
 
-export function getRecommendNoteList() {
-  return api.get('api/note/recommend')
+export function getRecommendNoteList(currentPage, size) {
+  return api.get(`api/note/recommend?currentPage=${currentPage}&size=${size}`)
 }
 
 export function like(noteId) {
