@@ -1,6 +1,6 @@
-import { View } from 'native-base'
+import { Text, View } from 'native-base'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Dimensions } from 'react-native'
+import { ActivityIndicator, Dimensions } from 'react-native'
 import TouchableScale from 'react-native-touchable-scale'
 import { noteService } from '../../api'
 import Background from '../../components/Background'
@@ -16,6 +16,8 @@ function RecommendScreen({ navigation }) {
   let page = useRef(1)
   let pageSize = 10
   let totalPageSize = useRef(0)
+  const [bottomRefreshing, setBottomRefreshing] = React.useState(false)
+  const [isFinished, setIsFinished] = React.useState(false)
   useEffect(() => {
     appEmitter.on(appEmitter.type.updateCommentData, (comment: any) => {
       updateCommentData(comment)
@@ -25,7 +27,6 @@ function RecommendScreen({ navigation }) {
   const refreshData = useCallback(async () => {
     setLoading(true)
     if (!loading) {
-      console.log('刷新数据')
       let res = await noteService.getRecommendNoteList(1, pageSize)
       totalPageSize.current = res.data.totalPage
       setData(res.data.list)
@@ -37,9 +38,14 @@ function RecommendScreen({ navigation }) {
     if (!lock.current) {
       lock.current = true
       if (page.current <= totalPageSize.current) {
+        setBottomRefreshing(true)
         page.current++
         let res = await noteService.getRecommendNoteList(page.current, pageSize)
         setData(data.concat(res.data.list))
+        setBottomRefreshing(false)
+      } else {
+        //表示没有更多数据
+        setIsFinished(true)
       }
       lock.current = false
     }
@@ -67,28 +73,54 @@ function RecommendScreen({ navigation }) {
         }}
         onScrollBegin={refreshData}
         onScrollEnd={loadData}>
-        <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
-          {data.map((item) => {
-            return (
-              <View key={item.id} style={{ width: '50%' }}>
-                <TouchableScale
-                  // @ts-ignore
-                  key={item.id}
-                  friction={100}
-                  tension={100}
-                  activeScale={0.98}
-                  onPress={() => {
-                    navigation.navigate('Note', item)
-                  }}>
-                  <PreviewCard item={item} />
-                </TouchableScale>
-              </View>
-            )
-          })}
+        <View>
+          <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
+            {data.map((item) => {
+              return (
+                <View key={item.id} style={{ width: '50%' }}>
+                  <TouchableScale
+                    // @ts-ignore
+                    key={item.id}
+                    friction={100}
+                    tension={100}
+                    activeScale={0.98}
+                    onPress={() => {
+                      navigation.navigate('Note', item)
+                    }}>
+                    <PreviewCard item={item} />
+                  </TouchableScale>
+                </View>
+              )
+            })}
+          </View>
+          <View
+            style={{
+              height: 40,
+              zIndex: 10,
+              marginTop: 10,
+              justifyContent: 'center'
+            }}>
+            {isFinished ? (
+              <Text style={{ textAlign: 'center' }}>没有更多了</Text>
+            ) : (
+              <>
+                {bottomRefreshing ? (
+                  <View>
+                    <ActivityIndicator size="large" color="black" />
+                    <Text style={{ textAlign: 'center' }}>刷新中</Text>
+                  </View>
+                ) : (
+                  <>
+                    <Text style={{ textAlign: 'center' }}>上拉加载更多...</Text>
+                  </>
+                )}
+              </>
+            )}
+          </View>
         </View>
       </CustomScrollView>
     )
-  }, [data, loading])
+  }, [data, loading, bottomRefreshing, isFinished])
   return (
     <Background>
       <View width="100%" height={screenHeight - 35} pt="82">

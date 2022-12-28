@@ -21,7 +21,7 @@ function PreviewCard({ item }) {
           <Text
             numberOfLines={2}
             ellipsizeMode={'tail'}
-            maxW="96%"
+            maxW="80%"
             fontWeight="600"
             _light={{
               color: colors.black

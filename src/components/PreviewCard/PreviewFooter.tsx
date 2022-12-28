@@ -25,7 +25,14 @@ function PreviewFooter({ item }) {
           }}>
           AJ
         </Avatar>
-        <Text color={colors.main_font} w="100" fontWeight="400" fontSize="12" pl="1" ellipsizeMode="tail">
+        <Text
+          color={colors.main_font}
+          w="90"
+          numberOfLines={1}
+          fontWeight="400"
+          fontSize="12"
+          pl="1"
+          ellipsizeMode="tail">
           {item.nickname}
         </Text>
       </HStack>

@@ -34,11 +34,11 @@ function ProfileBody({ navigation, user }) {
 }
 const styles = StyleSheet.create({
   profileContainer: {
-    width: screenWidth - 50,
-    marginLeft: 25,
-    marginTop: 60,
+    width: screenWidth - 26,
+    marginTop: 100,
     borderRadius: 20,
     backgroundColor: colors.white,
+    justifyContent: 'center',
     alignItems: 'center'
   },
   content: {

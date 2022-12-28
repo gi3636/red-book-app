@@ -15,6 +15,7 @@ import ProfileHeader from './component/ProfileHeader'
 import ProfileBody from './component/ProfileBody'
 import { appEmitter } from '@/utils/app.emitter'
 import { useSelector } from 'react-redux'
+import { View } from 'native-base'
 
 export default function ProfileScreen({ navigation, route }) {
   let lock = false
@@ -41,9 +42,11 @@ export default function ProfileScreen({ navigation, route }) {
       colors={[colors.primary, colors.secondary]}
       style={styles.linearGradient}>
       <SafeAreaView style={{ flex: 1 }}>
+        <ProfileHeader />
         <ScrollView style={{ flex: 1 }} onMomentumScrollEnd={handleScrollEnd}>
-          <ProfileHeader />
-          <ProfileBody navigation={navigation} user={user} />
+          <View style={{ alignItems: 'center' }}>
+            <ProfileBody navigation={navigation} user={user} />
+          </View>
         </ScrollView>
       </SafeAreaView>
     </LinearGradient>

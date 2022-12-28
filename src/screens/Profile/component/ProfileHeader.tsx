@@ -8,14 +8,23 @@ import { userLogout } from '../../../store/user/slice'
 function ProfileHeader(props) {
   const dispatch = useDispatch()
   return (
-    <Flex alignItems="center" justifyContent="space-between" flexDirection="row" backgroundColor={colors.primary}>
+    <Flex
+      style={{
+        position: 'absolute',
+        top: 50,
+        right: 0,
+        zIndex: 10
+      }}
+      alignItems="center"
+      justifyContent="space-between"
+      flexDirection="row">
       <View />
       <Flex alignItems="center" flexDirection="row">
         <SettingIcon
           style={{ marginRight: 25, paddingVertical: 20 }}
           onPress={() => {
             dispatch(userLogout())
-            console.log('设定')
+            console.log('设')
           }}
         />
       </Flex>
